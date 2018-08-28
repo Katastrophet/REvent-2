@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -74,9 +75,11 @@ public class DataDownload extends AsyncTask<String, Void, Void> {
                 String type = jsonObjectEvent.getString("type");
                 String organizer = jsonObjectEvent.getString("organizer");
                 String dateString = jsonObjectEvent.getString("date");
+                String timeString = jsonObjectEvent.getString("time");
                 LocalDate date = getDateFromString(dateString);
+                LocalTime time = getTimeFromString(timeString);
 
-                EventItem item = new EventItem(title, type, organizer, date);
+                EventItem item = new EventItem(title, type, organizer, date, time);
                 table.add(item);
             }
         } catch (Exception e) {
@@ -101,13 +104,18 @@ public class DataDownload extends AsyncTask<String, Void, Void> {
     }
 
     private static LocalDate getDateFromString(String dateString){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate date = LocalDate.parse(dateString, formatter);
-        System.out.println(date);
-        //int year = date.getYear(); // 2010
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate date = LocalDate.parse(dateString, dateFormatter);
+        //int year = date.getYear(); // 2018
         //int day = date.getDayOfMonth(); // 2
         //Month month = date.getMonth(); // JANUARY
         //int monthAsInt = month.getValue(); // 1
         return date;
+    }
+
+    private static LocalTime getTimeFromString(String timeString){
+        DateTimeFormatter timeFormatter =  DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalTime time = LocalTime.parse(timeString, timeFormatter);
+        return time;
     }
 }

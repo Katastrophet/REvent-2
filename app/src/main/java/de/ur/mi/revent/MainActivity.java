@@ -19,7 +19,6 @@ public class MainActivity extends Activity implements DownloadListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         new DataDownload(this, table).execute(ADDRESS);
-        //System.out.println(table.get(2).getOrganizer());
         System.out.println("Hello MainActivity");
 
     }
