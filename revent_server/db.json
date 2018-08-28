@@ -1,6 +1,0 @@
-{
-  "events": [
-    { "id": 1, "title": "Sommerfest", "type": "party", "oragnizer": "Fachschaft Geschichte" },
-    { "id": 2, "title": "Campusparty", "type": "party",  "organizer": "FIM"}
-  ]
-}
