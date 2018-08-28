@@ -1,7 +1,10 @@
 package de.ur.mi.revent.Download;
 
 
+import android.annotation.TargetApi;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,7 +15,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
+import java.text.DateFormat;
+import java.util.Locale;
 
 
 import de.ur.mi.revent.Template.EventItem;
@@ -20,9 +29,9 @@ import de.ur.mi.revent.Template.EventItem;
 
 public class DataDownload extends AsyncTask<String, Void, Void> {
 
-    private static final String TITLE = "TITEL";
-    private static final String TYPE = "TYP";
-    private static final String ORGANIZER = "VERANSTALTER";
+    //private static final String TITLE = "title";
+    //private static final String TYPE = "type";
+    //private static final String ORGANIZER = "organizer";
 
     private ArrayList<EventItem> table;
     private DownloadListener listener;
@@ -55,22 +64,19 @@ public class DataDownload extends AsyncTask<String, Void, Void> {
         listener.onDownloadFinished();
     }
 
+
     private void processJson(JSONArray jsonArray) {
         try {
-            JSONArray events = jsonArray.getJSONArray(0);
-            System.out.println(events.length());
-            //loop through teams
-            for (int i = 0; i < events.length(); i++) {
-                //get team object and print
-                System.out.println("InLoop");
-                JSONObject jsonObjectEvent = events.getJSONObject(i);
-                System.out.println(jsonObjectEvent);
-                //get desired values according to JSON structure
-                String title = jsonObjectEvent.getString(TITLE);
-                String type = jsonObjectEvent.getString(TYPE);
-                String organizer = jsonObjectEvent.getString(ORGANIZER);
-                //add to table
-                EventItem item = new EventItem(title, type, organizer);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObjectEvent = jsonArray.getJSONObject(i);
+
+                String title = jsonObjectEvent.getString("title");
+                String type = jsonObjectEvent.getString("type");
+                String organizer = jsonObjectEvent.getString("organizer");
+                String dateString = jsonObjectEvent.getString("date");
+                LocalDate date = getDateFromString(dateString);
+
+                EventItem item = new EventItem(title, type, organizer, date);
                 table.add(item);
             }
         } catch (Exception e) {
@@ -79,13 +85,11 @@ public class DataDownload extends AsyncTask<String, Void, Void> {
     }
 
     private static JSONArray getJSONArrayFromURL(String urlString) throws IOException, JSONException {
-
         URL url = new URL(urlString);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.connect();
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream(), "ISO-8859-1"));
-
         StringBuilder stringBuilder = new StringBuilder();
         String line;
         while ((line = bufferedReader.readLine()) != null) {
@@ -93,7 +97,17 @@ public class DataDownload extends AsyncTask<String, Void, Void> {
         }
         bufferedReader.close();
         urlConnection.disconnect();
-        System.out.println(stringBuilder.toString());
         return new JSONArray(stringBuilder.toString());
+    }
+
+    private static LocalDate getDateFromString(String dateString){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate date = LocalDate.parse(dateString, formatter);
+        System.out.println(date);
+        //int year = date.getYear(); // 2010
+        //int day = date.getDayOfMonth(); // 2
+        //Month month = date.getMonth(); // JANUARY
+        //int monthAsInt = month.getValue(); // 1
+        return date;
     }
 }

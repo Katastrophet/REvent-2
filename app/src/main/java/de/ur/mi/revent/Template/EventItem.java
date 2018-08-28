@@ -1,17 +1,21 @@
 package de.ur.mi.revent.Template;
 
+import java.time.LocalDate;
+
 public class EventItem {
 
     private String title;
     private String type;
     private String organizer;
+    private LocalDate date;
     //TODO: Datum in json hinzufügen und abholen.
 
 
-    public EventItem(String title, String type, String organizer) {
+    public EventItem(String title, String type, String organizer, LocalDate date) {
         this.title = title;
         this.type = type;
         this.organizer = organizer;
+        this.date = date;
     }
 
     public String getTitle() {
@@ -26,5 +30,6 @@ public class EventItem {
         return organizer;
     }
 
+    public LocalDate getDate() { return date; }
 }
 
