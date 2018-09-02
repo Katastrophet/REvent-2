@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         DownloadManager.startDownload();
         System.out.println("Hello MainActivity");
-        buttonMap = (Button)findViewById(R.id.button_map);
+        buttonMap = findViewById(R.id.button_map);
         buttonMap.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        buttonCommingEvents = (Button)findViewById(R.id.button_commingEvents);
+        buttonCommingEvents = findViewById(R.id.button_commingEvents);
         buttonCommingEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,8 +49,6 @@ public class MainActivity extends Activity {
 
     private void showCommingEvents() {
         Intent i = new Intent(this,  CommingEventsActivity.class);
-        //i.putExtra("ADDRESS", ADDRESS);
-        //i.putExtra("dataDownloader", dataDownloader);
         startActivity(i);
     }
 }
