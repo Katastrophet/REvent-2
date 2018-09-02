@@ -3,6 +3,7 @@ package de.ur.mi.revent;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 
@@ -10,19 +11,19 @@ import java.util.ArrayList;
 
 import de.ur.mi.revent.Download.DownloadListener;
 import de.ur.mi.revent.Download.DataDownload;
+import de.ur.mi.revent.Download.DownloadManager;
 import de.ur.mi.revent.Template.EventItem;
 
-public class MainActivity extends Activity implements DownloadListener {
+public class MainActivity extends Activity {
     private ArrayList<EventItem> table = new ArrayList<EventItem>();
     private final static String ADDRESS = "https://json-server-android-db.herokuapp.com/events";
-    private Button buttonMap;
-
+    private Button buttonMap, buttonCommingEvents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new DataDownload(this, table).execute(ADDRESS);
+        DownloadManager.startDownload();
         System.out.println("Hello MainActivity");
         buttonMap = (Button)findViewById(R.id.button_map);
         buttonMap.setOnClickListener(new View.OnClickListener(){
@@ -32,17 +33,24 @@ public class MainActivity extends Activity implements DownloadListener {
             }
         });
 
-    }
-
-
-    @Override
-    public void onDownloadFinished() {
-        System.out.println("Download finished");
-        System.out.println(table.get(2).getOrganizer());
+        buttonCommingEvents = (Button)findViewById(R.id.button_commingEvents);
+        buttonCommingEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCommingEvents();
+            }
+        });
     }
 
     private void showMap() {
         Intent i = new Intent(this,  MapsActivity.class);
+        startActivity(i);
+    }
+
+    private void showCommingEvents() {
+        Intent i = new Intent(this,  CommingEventsActivity.class);
+        //i.putExtra("ADDRESS", ADDRESS);
+        //i.putExtra("dataDownloader", dataDownloader);
         startActivity(i);
     }
 }

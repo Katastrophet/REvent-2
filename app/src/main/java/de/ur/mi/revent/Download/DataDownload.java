@@ -4,6 +4,8 @@ package de.ur.mi.revent.Download;
 import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 
 import org.json.JSONArray;
@@ -28,19 +30,20 @@ import java.util.Locale;
 import de.ur.mi.revent.Template.EventItem;
 
 
-public class DataDownload extends AsyncTask<String, Void, Void> {
-
+public class DataDownload extends AsyncTask<String, Void, Void>{
+    private ArrayList<EventItem> table = new ArrayList<>();
     //private static final String TITLE = "title";
     //private static final String TYPE = "type";
     //private static final String ORGANIZER = "organizer";
 
-    private ArrayList<EventItem> table;
+    //private ArrayList<EventItem> table = new ArrayList<EventItem>();
     private DownloadListener listener;
 
-    public DataDownload(DownloadListener listener, ArrayList<EventItem> table) {
-        this.listener = listener;
-        this.table = table;
+    public DataDownload() {
+        //this.listener = listener;
+        //this.table = table;
     }
+
 
     @Override
     protected Void doInBackground(String... params) {
@@ -62,7 +65,9 @@ public class DataDownload extends AsyncTask<String, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
-        listener.onDownloadFinished();
+        if(listener != null) {
+            listener.onDownloadFinished();
+        }
     }
 
 
@@ -117,5 +122,13 @@ public class DataDownload extends AsyncTask<String, Void, Void> {
         DateTimeFormatter timeFormatter =  DateTimeFormatter.ofPattern("HH:mm:ss");
         LocalTime time = LocalTime.parse(timeString, timeFormatter);
         return time;
+    }
+
+    public ArrayList<EventItem> getData() {
+        return table;
+    }
+
+    public void setListener(DownloadListener listener) {
+        this.listener = listener;
     }
 }

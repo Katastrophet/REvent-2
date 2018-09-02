@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">revent</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_comming_events_activity">Comming Events</string>
     <string name="button_map">Show Map</string>
+    <string name="button_commingEvents">Show comming Events</string>
 </resources>
