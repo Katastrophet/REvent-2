@@ -49,7 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
 
-        //Bewege Kamera nach Regensburg
+        //Bewege Kamera nach Regensburg - TODO: Koordinate auslagern
         LatLng regensburg = new LatLng(49.01, 12.1);
         //mMap.addMarker(new MarkerOptions().position(regensburg).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(regensburg));
