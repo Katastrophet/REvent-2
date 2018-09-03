@@ -19,7 +19,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
+            android:label="@string/app_name">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,7 +43,23 @@
 
         <activity
             android:name=".MapsActivity"
+            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
             android:label="@string/title_activity_maps"></activity>
+        <activity
+            android:name=".KommendeEvents"
+            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
+            android:label="@string/activityKE">
+        </activity>
+        <activity
+            android:name=".VorgemerkteEvents"
+            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
+            android:label="@string/activityVE">
+        </activity>
+        <activity
+            android:name=".Event"
+            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
+            android:label="@string/activityE">
+        </activity>
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
     </application>
 
