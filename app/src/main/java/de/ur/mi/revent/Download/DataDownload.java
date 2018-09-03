@@ -1,13 +1,8 @@
 package de.ur.mi.revent.Download;
 
 
-import android.annotation.TargetApi;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.annotation.RequiresApi;
 
+import android.os.AsyncTask;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,8 +14,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Date;
 import java.text.DateFormat;
@@ -32,11 +27,12 @@ import de.ur.mi.revent.Template.EventItem;
 
 public class DataDownload extends AsyncTask<String, Void, Void>{
     private ArrayList<EventItem> table = new ArrayList<>();
+    private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static DateTimeFormatter timeFormatter =  DateTimeFormatter.ofPattern("HH:mm:ss");
     //private static final String TITLE = "title";
     //private static final String TYPE = "type";
     //private static final String ORGANIZER = "organizer";
 
-    //private ArrayList<EventItem> table = new ArrayList<EventItem>();
     private DownloadListener listener;
 
     public DataDownload() {
@@ -81,11 +77,16 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
                 String organizer = jsonObjectEvent.getString("organizer");
                 String dateString = jsonObjectEvent.getString("date");
                 String timeString = jsonObjectEvent.getString("time");
+                String location = jsonObjectEvent.getString("address");
+
                 LocalDate date = getDateFromString(dateString);
                 LocalTime time = getTimeFromString(timeString);
 
-                EventItem item = new EventItem(title, type, organizer, date, time);
-                table.add(item);
+                if(date.compareTo(LocalDate.now())>=0) {
+                //Das Event wird nur dann hinzugefügt, falls es noch in der Zukunft (oder im Heute) liegt.
+                    EventItem item = new EventItem(title, type, organizer, date, time, location);
+                    table.add(item);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,7 +110,7 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
     }
 
     private static LocalDate getDateFromString(String dateString){
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        //DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate date = LocalDate.parse(dateString, dateFormatter);
         //int year = date.getYear(); // 2018
         //int day = date.getDayOfMonth(); // 2
@@ -119,7 +120,7 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
     }
 
     private static LocalTime getTimeFromString(String timeString){
-        DateTimeFormatter timeFormatter =  DateTimeFormatter.ofPattern("HH:mm:ss");
+        //DateTimeFormatter timeFormatter =  DateTimeFormatter.ofPattern("HH:mm:ss");
         LocalTime time = LocalTime.parse(timeString, timeFormatter);
         return time;
     }

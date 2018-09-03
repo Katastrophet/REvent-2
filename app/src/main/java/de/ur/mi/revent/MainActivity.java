@@ -3,14 +3,11 @@ package de.ur.mi.revent;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
 
-import de.ur.mi.revent.Download.DownloadListener;
-import de.ur.mi.revent.Download.DataDownload;
 import de.ur.mi.revent.Download.DownloadManager;
 import de.ur.mi.revent.Template.EventItem;
 
