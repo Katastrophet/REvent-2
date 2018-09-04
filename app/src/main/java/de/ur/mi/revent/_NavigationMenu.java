@@ -20,8 +20,8 @@ public class _NavigationMenu {
             case R.id.menu_Event: showEvent();break;
             case R.id.menu_KommendeEvents: showKommendeEvents();break;
             case R.id.menu_VorgemerkteEvents: showVorgemerkteEvents();break;
-            case R.id.menu_Maps: showMap();
-            case R.id.menu_REvent: showMainActivity();
+            case R.id.menu_REvent: showMainActivity();break;
+            case R.id.menu_Maps: showMap();break;
         }
         return true;
     }
