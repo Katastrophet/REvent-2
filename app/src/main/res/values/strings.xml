@@ -1,7 +1,19 @@
 <resources>
-    <string name="app_name">revent</string>
+    <string name="app_name">REvent</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_comming_events_activity">Comming Events</string>
     <string name="button_map">Show Map</string>
+    //Labels
+    <string name="activityKE">Kommende Events</string>
+    <string name="activityVE">Vorgemerkte Events</string>
+    <string name="activityE">Event</string>
+    //Event
+    <string name="date">Datum:</string>
+    <string name="time">Uhrzeit:</string>
+    <string name="location">Ort:</string>
+    <string name="fachschaft">Fachschaft:</string>
+    <string name="eventType">Eventtyp:</string>
+    <string name="notes">Anmerkungen:</string>
+    <string name="teilnehmen">Teilnehmen</string>
     <string name="button_commingEvents">Show comming Events</string>
 </resources>

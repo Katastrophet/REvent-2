@@ -14,6 +14,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -41,6 +43,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String strAddress;
     private List<Address> address;
     private GoogleMap mMap;
+    private _NavigationMenu navigationMenu;
     NavigationController navigationController;
     LatLng lastKnownLocation;
 
@@ -49,6 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        navigationMenu=new _NavigationMenu(this);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -57,6 +61,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         navigationController.setNavigationListener(this);
         navigationController.startNavigation();
     }
+
 
     /**
      * Manipulates the map once available.
@@ -163,5 +168,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged() {
         showLocation();
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        navigationMenu.onCreateOptionsMenu(menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        navigationMenu.onOptionsItemSelected(item);
+        return true;
     }
 }

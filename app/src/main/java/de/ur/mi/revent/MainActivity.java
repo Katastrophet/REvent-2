@@ -1,9 +1,13 @@
 package de.ur.mi.revent;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -13,12 +17,16 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import de.ur.mi.revent.Download.DataDownload;
+import de.ur.mi.revent.Download.DownloadListener;
 import de.ur.mi.revent.Download.DownloadManager;
 import de.ur.mi.revent.Template.EventItem;
 
-public class MainActivity extends AppCompatActivity {
-    private ArrayList<EventItem> table = new ArrayList<>();
-    private Button buttonMap, buttonCommingEvents;
+public class MainActivity extends AppCompatActivity implements DownloadListener {
+    private ArrayList<EventItem> table = new ArrayList<EventItem>();
+    private final static String ADDRESS = "https://json-server-android-db.herokuapp.com/events";
+    private _NavigationMenu navigationMenu;
+    private Button buttonCommingEvents;
     private static final int PERMISSIONS_REQUEST_CODE = 0;
 
     @Override
@@ -39,15 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void initUI(){
         setContentView(R.layout.activity_main);
+        navigationMenu=new _NavigationMenu(this);
+        new DataDownload(this, table).execute(ADDRESS);
         System.out.println("Hello MainActivity");
 
-        buttonMap = findViewById(R.id.button_map);
-        buttonMap.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                showMap();
-            }
-        });
 
         buttonCommingEvents = findViewById(R.id.button_commingEvents);
         buttonCommingEvents.setOnClickListener(new View.OnClickListener() {
@@ -57,10 +60,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void showMap() {
-        Intent i = new Intent(this,  MapsActivity.class);
-        startActivity(i);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        navigationMenu.onCreateOptionsMenu(menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        navigationMenu.onOptionsItemSelected(item);
+        return true;
     }
 
     private void showCommingEvents() {
