@@ -22,7 +22,7 @@ import de.ur.mi.revent.Download.DownloadListener;
 import de.ur.mi.revent.Download.DownloadManager;
 import de.ur.mi.revent.Template.EventItem;
 
-public class MainActivity extends AppCompatActivity implements DownloadListener {
+public class MainActivity extends Activity implements DownloadListener {
     private ArrayList<EventItem> table = new ArrayList<EventItem>();
     private final static String ADDRESS = "https://json-server-android-db.herokuapp.com/events";
     private _NavigationMenu navigationMenu;
@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements DownloadListener 
     private void initUI(){
         setContentView(R.layout.activity_main);
         navigationMenu=new _NavigationMenu(this);
-        new DataDownload(this, table).execute(ADDRESS);
         System.out.println("Hello MainActivity");
 
 
@@ -89,5 +88,10 @@ public class MainActivity extends AppCompatActivity implements DownloadListener 
             }
 
         }
+    }
+
+    @Override
+    public void onDownloadFinished() {
+
     }
 }
