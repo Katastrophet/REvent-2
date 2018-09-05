@@ -1,8 +1,13 @@
 package de.ur.mi.revent.Download;
 
 
-
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
+
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +15,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.ContentHandler;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
@@ -19,6 +25,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Date;
 import java.text.DateFormat;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -29,6 +36,7 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
     private ArrayList<EventItem> table = new ArrayList<>();
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static DateTimeFormatter timeFormatter =  DateTimeFormatter.ofPattern("HH:mm:ss");
+    private Context con;
     //private static final String TITLE = "title";
     //private static final String TYPE = "type";
     //private static final String ORGANIZER = "organizer";
@@ -39,7 +47,6 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
         //this.listener = listener;
         //this.table = table;
     }
-
 
     @Override
     protected Void doInBackground(String... params) {
@@ -66,7 +73,6 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
         }
     }
 
-
     private void processJson(JSONArray jsonArray) {
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -78,9 +84,10 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
                 String dateString = jsonObjectEvent.getString("date");
                 String timeString = jsonObjectEvent.getString("time");
                 String location = jsonObjectEvent.getString("address");
-
+                System.out.println(title);
                 LocalDate date = getDateFromString(dateString);
                 LocalTime time = getTimeFromString(timeString);
+                //LatLng location = getLocationFromString(location);
 
                 if(date.compareTo(LocalDate.now())>=0) {
                 //Das Event wird nur dann hinzugefügt, falls es noch in der Zukunft (oder im Heute) liegt.
@@ -124,6 +131,26 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
         LocalTime time = LocalTime.parse(timeString, timeFormatter);
         return time;
     }
+
+    /*public LatLng getLocationFromString(String strAddress) {
+        con = this;
+        Geocoder coder = new Geocoder(con);
+
+        try {
+            List<Address> address = coder.getFromLocationName(strAddress, 1);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            double lat = location.getLatitude();
+            double lng = location.getLongitude();
+
+            LatLng pos = new LatLng(lat, lng);
+            return pos;
+        } catch (Exception e) {
+            return null;
+        }
+    }*/
 
     public ArrayList<EventItem> getData() {
         return table;

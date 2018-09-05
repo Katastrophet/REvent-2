@@ -17,12 +17,12 @@ import de.ur.mi.revent.Download.DownloadManager;
 import de.ur.mi.revent.Template.EventItem;
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayList<EventItem> table = new ArrayList<EventItem>();
+    private ArrayList<EventItem> table = new ArrayList<>();
     private Button buttonMap, buttonCommingEvents;
     private static final int PERMISSIONS_REQUEST_CODE = 0;
 
     @Override
-    // TODO: Handel removal/denial of permission
+    // TODO: Handle removal/denial of permission
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 showCommingEvents();
             }
         });
-
     }
 
     private void showMap() {
@@ -79,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "Permissions not granted", Toast.LENGTH_LONG).show();
                 }
-                return;
             }
 
         }

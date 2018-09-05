@@ -1,5 +1,7 @@
 package de.ur.mi.revent.Template;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -11,6 +13,7 @@ public class EventItem {
     private LocalDate date;
     private LocalTime time;
     private String location;
+    private int distance;
 
     public EventItem(String title, String type, String organizer, LocalDate date, LocalTime time, String location) {
         this.title = title;
@@ -19,6 +22,7 @@ public class EventItem {
         this.date = date;
         this.time = time;
         this.location = location;
+
     }
 
     public String getTitle() {
@@ -38,5 +42,12 @@ public class EventItem {
     public LocalTime getTime() { return time; }
 
     public String getLocation() { return location; }
+
+    public int getDistance() {return distance;}
+
+    public int setDistance(int distance) {
+        this.distance = distance;
+        return 0;
+    }
 }
 
