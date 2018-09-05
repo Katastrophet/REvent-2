@@ -29,9 +29,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Switch
+        android:id="@+id/switch_teilnehmen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/teilnehmen"
-        android:thumbTint="@color/_Green"
-        android:trackTint="@color/_Green"/>
+        android:text="@string/switch_teilnehmen"
+        android:thumbTint="@color/_Grey"
+        android:trackTint="@color/_Grey" />
 </LinearLayout>

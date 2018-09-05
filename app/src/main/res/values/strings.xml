@@ -14,6 +14,6 @@
     <string name="fachschaft">Fachschaft:</string>
     <string name="eventType">Eventtyp:</string>
     <string name="notes">Anmerkungen:</string>
-    <string name="teilnehmen">Teilnehmen</string>
+    <string name="switch_teilnehmen">Teilnehmen</string>
     <string name="button_commingEvents">Show comming Events</string>
 </resources>

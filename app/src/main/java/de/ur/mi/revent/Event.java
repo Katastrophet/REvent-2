@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -15,7 +16,7 @@ public class Event extends Activity{
     private TextView fachschaft;
     private TextView eventType;
     private TextView notes;
-    private Switch teilnehmen;
+    private Switch switch_teilnehmen;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -28,6 +29,7 @@ public class Event extends Activity{
         fachschaft=(TextView) findViewById(R.id.fachschaft);
         eventType=(TextView) findViewById(R.id.eventType);
         notes=(TextView) findViewById(R.id.notes);
+        switch_teilnehmen=(Switch)findViewById(R.id.switch_teilnehmen);
 
         date.setText(getString(R.string.date));
         time.setText(getString(R.string.time));
@@ -35,6 +37,21 @@ public class Event extends Activity{
         fachschaft.setText(getString(R.string.fachschaft));
         eventType.setText(getString(R.string.eventType));
         notes.setText(getString(R.string.notes));
+        switch_teilnehmen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //ChangeColor
+                if (getCheckedState()){
+                    switch_teilnehmen.getThumbDrawable().setTint(getResources().getColor(R.color._Green));
+                    switch_teilnehmen.getTrackDrawable().setTint(getResources().getColor(R.color._Green));
+                }
+                else{
+                    switch_teilnehmen.getThumbDrawable().setTint(getResources().getColor(R.color._Grey));
+                    switch_teilnehmen.getTrackDrawable().setTint(getResources().getColor(R.color._Grey));
+                }
+                //Add/DeleteLocalLibrary
+            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -45,5 +62,8 @@ public class Event extends Activity{
     public boolean onOptionsItemSelected(MenuItem item){
         navigationMenu.onOptionsItemSelected(item);
         return true;
+    }
+    public boolean getCheckedState(){
+        return switch_teilnehmen.isChecked();
     }
 }
