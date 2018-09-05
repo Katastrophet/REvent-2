@@ -41,6 +41,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String strAddress;
     private List<Address> address;
     private GoogleMap mMap;
+    NavigationController navigationController;
     LatLng lastKnownLocation;
 
 
@@ -52,8 +53,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        NavigationController.getInstance(this).setNavigationListener(this);
-        NavigationController.getInstance(this).startNavigation();
+        navigationController = new NavigationController(this);
+        navigationController.setNavigationListener(this);
+        navigationController.startNavigation();
     }
 
     /**
@@ -69,7 +71,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         /*******/
         //showLocation();
         /*******/
-        lastKnownLocation = NavigationController.getInstance(this).getLastKnownLocation();
+        lastKnownLocation = navigationController.getLastKnownLocation();
         mMap.addMarker(new MarkerOptions().position(lastKnownLocation).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).zIndex(1.0f));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(regensburg));
         getDownloadData();
@@ -78,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             strAddress = table.get(i).getLocation();
             LatLng pos = getLocationFromAddress(strAddress);
             mMap.addMarker(new MarkerOptions().position(pos).title(table.get(i).getTitle()));
-            results = NavigationController.getInstance(this).getEstimatedDistanceForLocation(pos);
+            results = navigationController.getEstimatedDistanceForLocation(pos);
             System.out.println(table.get(i).getTitle());
             System.out.println(i);
         }
@@ -105,8 +107,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void showLocation(){
-        if(!(lastKnownLocation.equals(NavigationController.getInstance(this).getLastKnownLocation()))) {
-            lastKnownLocation = NavigationController.getInstance(this).getLastKnownLocation();
+        if(!(lastKnownLocation.equals(navigationController.getLastKnownLocation()))) {
+            lastKnownLocation = navigationController.getLastKnownLocation();
             mMap.addMarker(new MarkerOptions().position(lastKnownLocation).title("Your location"));
         } else {
             return;

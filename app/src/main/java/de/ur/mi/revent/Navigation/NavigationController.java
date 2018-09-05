@@ -21,7 +21,6 @@ import de.ur.mi.revent.Navigation.NavigationListener;
 
 public class NavigationController implements LocationListener {
 
-    private static NavigationController mInstance;
     private Context context;
 
     private NavigationListener navigationListener;
@@ -31,14 +30,7 @@ public class NavigationController implements LocationListener {
     private Location lastKnownLocation;
     private String bestProvider;
 
-    public static NavigationController getInstance(Context context) {
-        if (mInstance == null) {
-            mInstance = new NavigationController(context);
-        }
-        return mInstance;
-    }
-    //in case of emergency: make constructor public, delete 34-39 and delete static mInstance
-    private NavigationController(Context context) {
+    public NavigationController(Context context) {
         this.context = context.getApplicationContext();
         locationManger = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         setBestProvider();
