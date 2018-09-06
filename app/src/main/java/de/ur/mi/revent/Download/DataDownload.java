@@ -84,6 +84,7 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
                 String dateString = jsonObjectEvent.getString("date");
                 String timeString = jsonObjectEvent.getString("time");
                 String location = jsonObjectEvent.getString("address");
+                String notes = jsonObjectEvent.getString("notes");
                 System.out.println(title);
                 LocalDate date = getDateFromString(dateString);
                 LocalTime time = getTimeFromString(timeString);
@@ -91,7 +92,7 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
 
                 if(date.compareTo(LocalDate.now())>=0) {
                 //Das Event wird nur dann hinzugefügt, falls es noch in der Zukunft (oder im Heute) liegt.
-                    EventItem item = new EventItem(title, type, organizer, date, time, location);
+                    EventItem item = new EventItem(title, type, organizer, date, time, location, notes);
                     table.add(item);
                 }
             }

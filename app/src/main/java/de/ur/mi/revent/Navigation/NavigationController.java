@@ -26,8 +26,6 @@ public class NavigationController implements LocationListener {
 
     private NavigationListener navigationListener;
     private LocationManager locationManger;
-    //private LatLng target;
-    private LatLng position;
     private Location lastKnownLocation;
     private String bestProvider;
 

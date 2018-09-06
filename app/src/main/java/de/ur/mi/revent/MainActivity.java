@@ -47,9 +47,6 @@ public class MainActivity extends Activity implements DownloadListener {
     private void initUI(){
         setContentView(R.layout.activity_main);
         navigationMenu=new _NavigationMenu(this);
-        System.out.println("Hello MainActivity");
-
-
         buttonCommingEvents = findViewById(R.id.button_commingEvents);
         buttonCommingEvents.setOnClickListener(new View.OnClickListener() {
             @Override

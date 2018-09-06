@@ -30,18 +30,19 @@ import de.ur.mi.revent.Navigation.NavigationListener;
 import de.ur.mi.revent.Template.EventItem;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DownloadListener, NavigationListener {
-
     private ArrayList<EventItem> table;
     private Context con;
+    private GoogleMap mMap;
     private String strAddress;
     private List<Address> address;
-    private GoogleMap mMap;
-    private _NavigationMenu navigationMenu;
+    private ArrayList<MarkerOptions> eventMarkers;
     private MarkerOptions ownLocationMarkerOptions;
     private Marker ownLocationMarker;
-    NavigationController navigationController;
-    LatLng lastKnownLocation;
+    private NavigationController navigationController;
+    private LatLng lastKnownLocation;
+    private LatLng regensburg;
 
+    private _NavigationMenu navigationMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,42 +53,49 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         navigationController = new NavigationController(this);
         navigationController.setNavigationListener(this);
         navigationController.startNavigation();
+
+        getDownloadData();
+        eventMarkers = new ArrayList<>();
+        for(int i = 0; i< table.size(); i++) {
+            //float[] results = new float[1];
+            //results = navigationController.getEstimatedDistanceForLocation(pos);
+            strAddress = table.get(i).getLocation();
+            LatLng pos = getLocationFromAddress(strAddress);
+            MarkerOptions eventMarkerOptions = new MarkerOptions().position(pos).title(table.get(i).getTitle());
+            eventMarkers.add(eventMarkerOptions);
+            System.out.println(table.get(i).getTitle());
+            System.out.println(i);
+        }
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     **/
+    /* This callback is triggered when the map is ready to be used. */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        //Bewege Kamera nach Regensburg - TODO: Koordinate auslagern
-        LatLng regensburg = new LatLng(49.01, 12.1);
+        regensburg = new LatLng(49.01, 12.1);
+        //Finde und zeige die zuletzt gefundene Position des Nutzers
         lastKnownLocation = navigationController.getLastKnownLocation();
-        ownLocationMarkerOptions = new MarkerOptions().position(lastKnownLocation).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).zIndex(1.0f);
+        ownLocationMarkerOptions = new MarkerOptions()
+                .position(lastKnownLocation)
+                .title("Deine Position")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                .zIndex(1.0f);
         ownLocationMarker = mMap.addMarker(ownLocationMarkerOptions);
+        //Bewege Kamera nach Regensburg - TODO: Koordinate auslagern
         mMap.moveCamera(CameraUpdateFactory.newLatLng(regensburg));
-        getDownloadData();
-        for(int i = 0; i< table.size(); i++) {
-            float[] results = new float[1];
-            strAddress = table.get(i).getLocation();
-            LatLng pos = getLocationFromAddress(strAddress);
-            mMap.addMarker(new MarkerOptions().position(pos).title(table.get(i).getTitle()));
-            results = navigationController.getEstimatedDistanceForLocation(pos);
-            System.out.println(table.get(i).getTitle());
-            System.out.println(i);
+        //Eintragen der Eventmarker
+        for(int i = 0; i<eventMarkers.size(); i++){
+            mMap.addMarker(eventMarkers.get(i));
         }
     }
 
     public LatLng getLocationFromAddress(String strAddress) {
         con = this;
         Geocoder coder = new Geocoder(con);
-
         try {
             address = coder.getFromLocationName(strAddress, 1);
             if (address == null) {
@@ -96,7 +104,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Address location = address.get(0);
             double lat = location.getLatitude();
             double lng = location.getLongitude();
-
             LatLng pos = new LatLng(lat, lng);
             return pos;
         } catch (Exception e) {
@@ -106,18 +113,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void showLocation(){
         lastKnownLocation = navigationController.getLastKnownLocation();
-        //ownLocationMarkerOptions = new MarkerOptions().position(lastKnownLocation).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).zIndex(1.0f);
         ownLocationMarker.setPosition(lastKnownLocation);
     }
-
-
-    /***Downloadhandling***/
 
     private void getDownloadData(){
         try {
             if (DownloadManager.getStatus() == AsyncTask.Status.FINISHED) {
                 table = DownloadManager.getResults();
-                printData();
             } else {
                 DownloadManager.setListener(this);
             }
@@ -129,24 +131,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onDownloadFinished() {
         try {
             table = DownloadManager.getResults();
-            printData();
         } catch(Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void printData(){
-        System.out.println(table.get(2).getOrganizer());
-    }
-
-
-/*Navigationhandling*/
-
     @Override
     public void onSignalFound() {
-        Toast.makeText(this, "Signal acquired.", Toast.LENGTH_SHORT).show();
         showLocation();
-
     }
 
     @Override
@@ -156,9 +148,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged() {
-        Toast.makeText(this, "location changed.", Toast.LENGTH_SHORT).show();
         showLocation();
-        System.out.println("Location changed");
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

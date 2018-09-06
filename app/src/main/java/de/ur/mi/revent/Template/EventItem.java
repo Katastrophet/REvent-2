@@ -14,14 +14,16 @@ public class EventItem {
     private LocalTime time;
     private String location;
     private int distance;
+    private String notes;
 
-    public EventItem(String title, String type, String organizer, LocalDate date, LocalTime time, String location) {
+    public EventItem(String title, String type, String organizer, LocalDate date, LocalTime time, String location, String notes) {
         this.title = title;
         this.type = type;
         this.organizer = organizer;
         this.date = date;
         this.time = time;
         this.location = location;
+        this.notes = notes;
 
     }
 
@@ -44,6 +46,8 @@ public class EventItem {
     public String getLocation() { return location; }
 
     public int getDistance() {return distance;}
+
+    public String getNotes() { return notes; }
 
     public int setDistance(int distance) {
         this.distance = distance;
