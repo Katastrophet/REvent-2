@@ -52,5 +52,7 @@ public class CommingEventsActivity extends Activity implements DownloadListener 
 
     private void printData(){
         System.out.println(table.get(2).getOrganizer());
+        System.out.println(table.size());
+        System.out.println("here");
     }
 }
