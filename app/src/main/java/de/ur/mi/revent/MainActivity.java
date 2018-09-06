@@ -24,7 +24,6 @@ import de.ur.mi.revent.Template.EventItem;
 
 public class MainActivity extends Activity implements DownloadListener {
     private ArrayList<EventItem> table = new ArrayList<EventItem>();
-    private final static String ADDRESS = "https://json-server-android-db.herokuapp.com/events";
     private _NavigationMenu navigationMenu;
     private Button buttonCommingEvents;
     private static final int PERMISSIONS_REQUEST_CODE = 0;
@@ -94,4 +93,5 @@ public class MainActivity extends Activity implements DownloadListener {
     public void onDownloadFinished() {
 
     }
+
 }

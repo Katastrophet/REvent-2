@@ -1,22 +1,14 @@
 package de.ur.mi.revent;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,6 +17,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -44,6 +37,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private List<Address> address;
     private GoogleMap mMap;
     private _NavigationMenu navigationMenu;
+    private MarkerOptions ownLocationMarkerOptions;
+    private Marker ownLocationMarker;
     NavigationController navigationController;
     LatLng lastKnownLocation;
 
@@ -73,11 +68,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Bewege Kamera nach Regensburg - TODO: Koordinate auslagern
         LatLng regensburg = new LatLng(49.01, 12.1);
-        /*******/
-        //showLocation();
-        /*******/
         lastKnownLocation = navigationController.getLastKnownLocation();
-        mMap.addMarker(new MarkerOptions().position(lastKnownLocation).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).zIndex(1.0f));
+        ownLocationMarkerOptions = new MarkerOptions().position(lastKnownLocation).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).zIndex(1.0f);
+        ownLocationMarker = mMap.addMarker(ownLocationMarkerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(regensburg));
         getDownloadData();
         for(int i = 0; i< table.size(); i++) {
@@ -112,12 +105,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void showLocation(){
-        if(!(lastKnownLocation.equals(navigationController.getLastKnownLocation()))) {
-            lastKnownLocation = navigationController.getLastKnownLocation();
-            mMap.addMarker(new MarkerOptions().position(lastKnownLocation).title("Your location"));
-        } else {
-            return;
-        }
+        lastKnownLocation = navigationController.getLastKnownLocation();
+        //ownLocationMarkerOptions = new MarkerOptions().position(lastKnownLocation).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).zIndex(1.0f);
+        ownLocationMarker.setPosition(lastKnownLocation);
     }
 
 
@@ -155,7 +145,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onSignalFound() {
         Toast.makeText(this, "Signal acquired.", Toast.LENGTH_SHORT).show();
-        //showLocation();
+        showLocation();
 
     }
 
@@ -166,8 +156,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged() {
+        Toast.makeText(this, "location changed.", Toast.LENGTH_SHORT).show();
         showLocation();
-
+        System.out.println("Location changed");
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -178,5 +169,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public boolean onOptionsItemSelected(MenuItem item){
         navigationMenu.onOptionsItemSelected(item);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 }

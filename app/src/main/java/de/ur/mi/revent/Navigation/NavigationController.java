@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+//import com.google.android.gms.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -57,7 +58,8 @@ public class NavigationController implements LocationListener {
     public void startNavigation() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationManger.requestLocationUpdates(bestProvider, 1000, 1, this);
+                locationManger.requestLocationUpdates(bestProvider, 1000, 0, this);
+                locationManger.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
                 Log.d("startnavigation", "called");
             }
         }

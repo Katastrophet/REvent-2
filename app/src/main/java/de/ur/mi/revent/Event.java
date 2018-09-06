@@ -1,6 +1,7 @@
 package de.ur.mi.revent;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,5 +46,12 @@ public class Event extends Activity{
     public boolean onOptionsItemSelected(MenuItem item){
         navigationMenu.onOptionsItemSelected(item);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 }
