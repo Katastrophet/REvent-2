@@ -4,7 +4,9 @@ package de.ur.mi.revent.Navigation;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,6 +19,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.List;
 
 import de.ur.mi.revent.Navigation.NavigationListener;
 
@@ -85,6 +89,24 @@ public class NavigationController implements LocationListener {
         double longitude = lastKnownLocation.getLongitude();
         LatLng lastKnownLocationInLatLng = new LatLng(latitude, longitude);
         return lastKnownLocationInLatLng;
+    }
+
+    public LatLng getLocationFromAddress(String strAddress, Context con) {
+        Geocoder coder = new Geocoder(con);
+        List<Address> address;
+        try {
+            address = coder.getFromLocationName(strAddress, 1);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            double lat = location.getLatitude();
+            double lng = location.getLongitude();
+            LatLng pos = new LatLng(lat, lng);
+            return pos;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

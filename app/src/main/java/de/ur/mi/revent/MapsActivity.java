@@ -64,8 +64,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //float[] results = new float[1];
             //results = navigationController.getEstimatedDistanceForLocation(pos);
             strAddress = table.get(i).getLocation();
-            LatLng pos = getLocationFromAddress(strAddress);
-            MarkerOptions eventMarkerOptions = new MarkerOptions().position(pos).title(table.get(i).getTitle());
+            LatLng pos = navigationController.getLocationFromAddress(strAddress, this);
+            float[] distance = navigationController.getEstimatedDistanceForLocation(pos);
+            String distanceString = String.valueOf(Math.round(distance[0]));
+            MarkerOptions eventMarkerOptions = new MarkerOptions().position(pos).title(table.get(i).getTitle()).snippet(distanceString+" m");
             eventMarkers.add(eventMarkerOptions);
             System.out.println(table.get(i).getTitle());
             System.out.println(i);
@@ -90,24 +92,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Eintragen der Eventmarker
         for(int i = 0; i<eventMarkers.size(); i++){
             mMap.addMarker(eventMarkers.get(i));
-        }
-    }
-
-    public LatLng getLocationFromAddress(String strAddress) {
-        con = this;
-        Geocoder coder = new Geocoder(con);
-        try {
-            address = coder.getFromLocationName(strAddress, 1);
-            if (address == null) {
-                return null;
-            }
-            Address location = address.get(0);
-            double lat = location.getLatitude();
-            double lng = location.getLongitude();
-            LatLng pos = new LatLng(lat, lng);
-            return pos;
-        } catch (Exception e) {
-            return null;
         }
     }
 
