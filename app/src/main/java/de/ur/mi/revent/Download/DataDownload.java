@@ -1,8 +1,6 @@
 package de.ur.mi.revent.Download;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,14 +17,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import de.ur.mi.revent.MainActivity;
 import de.ur.mi.revent.Template.EventItem;
 
 public class DataDownload extends AsyncTask<String, Void, Void>{
     private ArrayList<EventItem> table = new ArrayList<>();
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static DateTimeFormatter timeFormatter =  DateTimeFormatter.ofPattern("HH:mm:ss");
-    private Exception error;
 
     private DownloadListener listener;
 
@@ -44,7 +40,6 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
             processJson(jsonArray);
         } catch (IOException | JSONException e) {
             e.printStackTrace();
-            this.error = e;
         }
         return null;
     }
@@ -54,14 +49,6 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
         super.onPostExecute(result);
         if(listener != null) {
             listener.onDownloadFinished();
-        }
-        if (!table.isEmpty()) {
-            System.out.println("Erfolg!");
-        } else {
-            if (error != null) {
-                System.out.println("Misserfolg!");
-                System.out.println(error.getMessage());
-            }
         }
     }
 

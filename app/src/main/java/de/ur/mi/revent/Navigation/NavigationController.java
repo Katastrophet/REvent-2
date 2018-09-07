@@ -12,33 +12,32 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 //import com.google.android.gms.location.LocationListener;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
-import de.ur.mi.revent.Navigation.NavigationListener;
+import de.ur.mi.revent.MapsActivity;
 
 public class NavigationController implements LocationListener {
 
     private Context context;
 
     private NavigationListener navigationListener;
-    private LocationManager locationManger;
+    private LocationManager locationManager;
     private Location lastKnownLocation;
     private String bestProvider;
 
     public NavigationController(Context context) {
         this.context = context.getApplicationContext();
-        locationManger = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         setBestProvider();
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            lastKnownLocation = locationManger.getLastKnownLocation(bestProvider);
+            lastKnownLocation = locationManager.getLastKnownLocation(bestProvider);
         }
     }
 
@@ -46,7 +45,7 @@ public class NavigationController implements LocationListener {
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
         criteria.setPowerRequirement(Criteria.POWER_MEDIUM);
-        bestProvider = locationManger.getBestProvider(criteria, true);
+        bestProvider = locationManager.getBestProvider(criteria, true);
         if (bestProvider == null) {
             Log.e("setbestprovider", "no Provider set");
         }
@@ -57,15 +56,20 @@ public class NavigationController implements LocationListener {
         //Set Listener, make for Loop with setTarget + getDistance
     }
 
-    public void startNavigation() {
+    public void startNavigation(Context con) {
+        if (!(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))){
+            //Weise den Nutzer daraufhin, dass die Standortbestimmung aktiviert sein muss um den Standort anzuzeigen. Duh.
+            Toast.makeText(con, "GPS muss aktiviert sein um den eigenen Standort einsehen zu können.", Toast.LENGTH_SHORT).show();
+        }
             if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationManger.requestLocationUpdates(bestProvider, 1000, 0, this);
-                locationManger.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
+                locationManager.requestLocationUpdates(bestProvider, 3000, 0, this);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, this);
             }
+
     }
 
     public void stopNavigation() {
-        locationManger.removeUpdates(this);
+        locationManager.removeUpdates(this);
     }
 
     public float[] getEstimatedDistanceForLocation(LatLng location) {

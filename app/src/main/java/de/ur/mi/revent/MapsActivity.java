@@ -59,7 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         navigationController = new NavigationController(this);
         navigationController.setNavigationListener(this);
-        navigationController.startNavigation();
+        navigationController.startNavigation(getApplicationContext());
 
         getDownloadData();
         getEventMarkers();
@@ -183,7 +183,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void getEventMarkers(){
-        //Stellt die Daten der Eventmarker zusammen.
+        //Stellt die Daten für die Eventmarker zusammen.
         eventMarkerOptions = new ArrayList<>();
         if(!table.isEmpty()) {
             //Positionen und Distanz der Events werden anhand ihrer Adresse ermittelt und eingetragen.
