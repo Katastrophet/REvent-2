@@ -37,12 +37,10 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".CommingEventsActivity"
-            android:label="@string/title_comming_events_activity" />
-        <activity
             android:name=".MapsActivity"
             android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps">
+        </activity>
         <activity
             android:name=".KommendeEvents"
             android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
