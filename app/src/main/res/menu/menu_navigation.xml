@@ -16,4 +16,8 @@
         android:id="@+id/menu_REvent"
         android:title="@string/app_name">
     </item>
+    <item
+        android:id="@+id/menu_Settings"
+        android:title="@string/activitySettings">
+    </item>
 </menu>

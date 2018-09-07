@@ -6,6 +6,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.ActivityCompat;
@@ -30,7 +31,11 @@ public class MainActivity extends Activity implements DownloadListener {
     private static final int PERMISSIONS_REQUEST_CODE = 0;
 
     @Override
-    // TODO: Handle removal/denial of permission
+    //  TODO: Handle removal/denial of permission
+    //  TODO: Sort List
+    //  TODO: Show Map in Event
+    //  TODO: Show Distance in ?(Event)
+    //  TODO:
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -38,6 +43,7 @@ public class MainActivity extends Activity implements DownloadListener {
         } else {
             init();
         }
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 
     private void init() {
