@@ -58,13 +58,10 @@ public class NavigationController implements LocationListener {
     }
 
     public void startNavigation() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 locationManger.requestLocationUpdates(bestProvider, 1000, 0, this);
                 locationManger.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
-                Log.d("startnavigation", "called");
             }
-        }
     }
 
     public void stopNavigation() {
@@ -76,12 +73,20 @@ public class NavigationController implements LocationListener {
         if (lastKnownLocation == null) {
             lastKnownLocation = new Location(bestProvider);
         }
-        double startLat = lastKnownLocation.getLatitude();
-        double startLng = lastKnownLocation.getLongitude();
-        double targetLat = location.latitude;
-        double targetLng = location.longitude;
-        Location.distanceBetween(startLat, startLng, targetLat, targetLng, results);
-        return results;
+        try
+        {
+            double startLat = lastKnownLocation.getLatitude();
+            double startLng = lastKnownLocation.getLongitude();
+            double targetLat = location.latitude;
+            double targetLng = location.longitude;
+            Location.distanceBetween(startLat, startLng, targetLat, targetLng, results);
+            return results;
+        }
+        catch (NullPointerException nullPointer)
+        {
+            nullPointer.printStackTrace();
+            return null;
+        }
     }
 
     public LatLng getLastKnownLocation(){
@@ -105,6 +110,7 @@ public class NavigationController implements LocationListener {
             LatLng pos = new LatLng(lat, lng);
             return pos;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

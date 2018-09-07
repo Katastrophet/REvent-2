@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -49,7 +51,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         navigationMenu=new _NavigationMenu(this);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -60,21 +61,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         getDownloadData();
         eventMarkers = new ArrayList<>();
+        //Positionen und Distanz der Events werden anhand ihrer Adresse ermittelt und eingetragen.
         for(int i = 0; i< table.size(); i++) {
-            //float[] results = new float[1];
-            //results = navigationController.getEstimatedDistanceForLocation(pos);
             strAddress = table.get(i).getLocation();
             LatLng pos = navigationController.getLocationFromAddress(strAddress, this);
             float[] distance = navigationController.getEstimatedDistanceForLocation(pos);
             String distanceString = String.valueOf(Math.round(distance[0]));
             MarkerOptions eventMarkerOptions = new MarkerOptions().position(pos).title(table.get(i).getTitle()).snippet(distanceString+" m");
             eventMarkers.add(eventMarkerOptions);
-            System.out.println(table.get(i).getTitle());
-            System.out.println(i);
         }
     }
 
-    /* This callback is triggered when the map is ready to be used. */
+    //Aufgerufen sobald die Karte bereit ist.
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
