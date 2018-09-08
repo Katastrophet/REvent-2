@@ -22,11 +22,9 @@ public class MainActivity extends Activity implements DownloadListener {
     private static final int PERMISSIONS_REQUEST_CODE = 0;
 
     @Override
-    //  TODO: Handle removal/denial of permission
     //  TODO: Sort List
     //  TODO: Show Map in Event
     //  TODO: Show Distance in ?(Event)
-    //  TODO:
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
