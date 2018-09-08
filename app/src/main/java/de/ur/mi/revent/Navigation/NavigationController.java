@@ -94,10 +94,16 @@ public class NavigationController implements LocationListener {
     }
 
     public LatLng getLastKnownLocation(){
-        double latitude = lastKnownLocation.getLatitude();
-        double longitude = lastKnownLocation.getLongitude();
-        LatLng lastKnownLocationInLatLng = new LatLng(latitude, longitude);
-        return lastKnownLocationInLatLng;
+        try {
+            double latitude = lastKnownLocation.getLatitude();
+            double longitude = lastKnownLocation.getLongitude();
+            LatLng lastKnownLocationInLatLng = new LatLng(latitude, longitude);
+            return lastKnownLocationInLatLng;
+        }
+        catch (NullPointerException nullPointer){
+            nullPointer.printStackTrace();
+            return null;
+        }
     }
 
     public LatLng getLocationFromAddress(String strAddress, Context con) {

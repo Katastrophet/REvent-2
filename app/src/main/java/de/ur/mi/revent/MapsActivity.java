@@ -51,6 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         navigationMenu=new _NavigationMenu(this);
+        table = new ArrayList<>();
         failed = false;
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -77,6 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Finde und zeige die zuletzt gefundene Position des Nutzers
         lastKnownLocation = navigationController.getLastKnownLocation();
+        if(lastKnownLocation!=null){
         ownLocationMarkerOptions = new MarkerOptions()
                 .position(lastKnownLocation)
                 .title("Deine Position")
@@ -86,6 +88,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Bewege Kamera nach Regensburg - TODO: Koordinate auslagern
         mMap.moveCamera(CameraUpdateFactory.newLatLng(regensburg));
+        }
+        else {
+            Toast.makeText(this, "Leider ist ein Fehler aufgetreten.", Toast.LENGTH_SHORT).show();
+        }
 
         drawEventMarkers();
     }
@@ -175,7 +181,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                drawEventMarkers();
            } else if (!(isConnected)) {
                //Keine Internetverbindung
-               Toast.makeText(this, "REvent benötigt eine aktive Internetverbindung um richtig zu funktionieren!", Toast.LENGTH_SHORT).show();
+               Toast.makeText(this, "REvent benötigt eine aktive Internetverbindung für den vollen Funktionsumfang", Toast.LENGTH_SHORT).show();
            }
        } catch (Exception e){
            e.printStackTrace();

@@ -32,9 +32,6 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".CommingEventsActivity"
-            android:label="@string/title_comming_events_activity" />
-        <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
             android:launchMode="singleInstance"
@@ -60,7 +57,6 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".Connectivity.TestApplication"></activity>
     </application>
 
 </manifest>
