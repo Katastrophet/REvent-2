@@ -34,6 +34,7 @@
 
         <activity
             android:name=".MapsActivity"
+            android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
             android:label="@string/title_activity_maps">
         </activity>

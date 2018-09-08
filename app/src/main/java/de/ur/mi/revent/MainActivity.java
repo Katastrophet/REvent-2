@@ -19,7 +19,6 @@ public class MainActivity extends Activity implements DownloadListener {
     private ArrayList<EventItem> table = new ArrayList<EventItem>();
     private final static String ADDRESS = "https://json-server-android-db.herokuapp.com/events";
     private _NavigationMenu navigationMenu;
-    private Button buttonCommingEvents;
     private static final int PERMISSIONS_REQUEST_CODE = 0;
 
     @Override
@@ -32,8 +31,10 @@ public class MainActivity extends Activity implements DownloadListener {
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
+            init();
         } else {
             init();
+            getLocationData();
         }
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
@@ -43,10 +44,16 @@ public class MainActivity extends Activity implements DownloadListener {
         DownloadManager.startDownload();
     }
 
+    public void getLocationData(){
+        //Erst hier ist bekannt ob Genehmigung erhalten.
+        //initUI und init dürfen noch nicht auf GPS-Daten wie den Abstand zugreifen.
+    }
+
+
+
     private void initUI(){
         setContentView(R.layout.activity_main);
         navigationMenu=new _NavigationMenu(this);
-        System.out.println("Hello MainActivity");
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -64,10 +71,11 @@ public class MainActivity extends Activity implements DownloadListener {
             case PERMISSIONS_REQUEST_CODE: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Permissions granted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Berechtigung erhalten.", Toast.LENGTH_SHORT).show();
                     init();
+                    //
                 } else {
-                    Toast.makeText(this, "Permissions not granted", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Berechtigung nicht erhalten.", Toast.LENGTH_LONG).show();
                 }
             }
 
