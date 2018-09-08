@@ -7,6 +7,7 @@
     <string name="activityKE">Kommende Events</string>
     <string name="activityVE">Vorgemerkte Events</string>
     <string name="activityE">Event</string>
+    <string name="activitySettings">Settings</string>
     //Event
     <string name="date">Datum:</string>
     <string name="time">Uhrzeit:</string>
@@ -14,6 +15,10 @@
     <string name="fachschaft">Fachschaft:</string>
     <string name="eventType">Eventtyp:</string>
     <string name="notes">Anmerkungen:</string>
-    <string name="teilnehmen">Teilnehmen</string>
+    <string name="switch_teilnehmen">Teilnehmen</string>
     <string name="button_commingEvents">Show comming Events</string>
+    //Settings
+    <string name="settings_ausflug">Ausflug</string>
+    <string name="settings_vortrag">Vortrag</string>
+    <string name="settings_party">Party</string>
 </resources>

@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.time.LocalDate;
+
 public class _NavigationMenu {
     private Activity activity;
     public _NavigationMenu(Activity activity){
@@ -18,11 +20,11 @@ public class _NavigationMenu {
     public boolean onOptionsItemSelected(MenuItem item){
         int id=item.getItemId();
         switch (id){
-            case R.id.menu_Event: showEvent();break;
             case R.id.menu_KommendeEvents: showKommendeEvents();break;
             case R.id.menu_VorgemerkteEvents: showVorgemerkteEvents();break;
             case R.id.menu_REvent: showMainActivity();break;
             case R.id.menu_Maps: showMap();break;
+            case R.id.menu_Settings: showSettings();break;
         }
         return true;
     }
@@ -31,8 +33,14 @@ public class _NavigationMenu {
         Intent i = new Intent(activity,  MapsActivity.class);
         activity.startActivity(i);
     }
-    public void showEvent(){
+    public void showEvent(String eventTitle, String eventDate, String eventTime,String eventLocation,String eventOrganizer,String eventType){
         Intent i = new Intent(activity,  Event.class);
+        i.putExtra("event_title",eventTitle);
+        i.putExtra("event_date",eventDate);
+        i.putExtra("event_time",eventTime);
+        i.putExtra("event_location",eventLocation);
+        i.putExtra("event_organizer",eventOrganizer);
+        i.putExtra("event_type",eventType);
         activity.startActivity(i);
     }
     public void showVorgemerkteEvents(){
@@ -45,6 +53,10 @@ public class _NavigationMenu {
     }
     public void showMainActivity(){
         Intent i = new Intent(activity,  MainActivity.class);
+        activity.startActivity(i);
+    }
+    public void showSettings(){
+        Intent i = new Intent(activity,  Settings.class);
         activity.startActivity(i);
     }
 }

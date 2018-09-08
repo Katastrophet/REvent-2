@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_Event"
-        android:title="@string/activityE">
-    </item>
-    <item
         android:id="@+id/menu_VorgemerkteEvents"
         android:title="@string/activityVE">
     </item>
@@ -19,5 +15,9 @@
     <item
         android:id="@+id/menu_REvent"
         android:title="@string/app_name">
+    </item>
+    <item
+        android:id="@+id/menu_Settings"
+        android:title="@string/activitySettings">
     </item>
 </menu>
