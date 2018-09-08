@@ -25,6 +25,7 @@ public class _NavigationMenu {
             case R.id.menu_REvent: showMainActivity();break;
             case R.id.menu_Maps: showMap();break;
             case R.id.menu_Settings: showSettings();break;
+            case R.id.menu_VorgeschlageneEvents: showVorgeschlageneEvents();break;
         }
         return true;
     }
@@ -57,6 +58,10 @@ public class _NavigationMenu {
     }
     public void showSettings(){
         Intent i = new Intent(activity,  Settings.class);
+        activity.startActivity(i);
+    }
+    public void showVorgeschlageneEvents(){
+        Intent i = new Intent(activity,  VorgeschlageneEventsActivity.class);
         activity.startActivity(i);
     }
 }

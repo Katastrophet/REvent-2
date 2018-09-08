@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class Settings extends PreferenceActivity {
+    public static final String pref_party="Party";
     private _NavigationMenu navigationMenu;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

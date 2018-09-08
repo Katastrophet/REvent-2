@@ -9,7 +9,7 @@
         android:title="@string/settings_vortrag"
         android:defaultValue="true"/>
     <CheckBoxPreference
-        android:key="pref_sync2"
+        android:key="pref_party"
         android:title="@string/settings_party"
         android:defaultValue="true"/>
 </PreferenceScreen>
