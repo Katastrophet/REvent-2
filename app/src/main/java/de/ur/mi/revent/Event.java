@@ -73,6 +73,13 @@ public class Event extends Activity{
         navigationMenu.onOptionsItemSelected(item);
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+    }
     public boolean getCheckedState(){
         return switch_teilnehmen.isChecked();
     }

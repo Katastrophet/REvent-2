@@ -26,6 +26,7 @@ public class DownloadManager {
             return dataDownloader.getStatus();
         } else{
             throw new Exception("download start failed!");
+
         }
     }
 
