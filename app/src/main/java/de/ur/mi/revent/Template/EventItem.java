@@ -51,11 +51,10 @@ public class EventItem implements Comparable<EventItem>{
 
     //public int getDistance() {return distance;}
 
-<<<<<<< HEAD
     public String getNotes() { return notes; }
 
     public int getId() { return id;}
-=======
+
     public int setDistance(int distance) {
         this.distance = distance;
         return 0;
@@ -68,6 +67,5 @@ public class EventItem implements Comparable<EventItem>{
         }
         return compResult;
     }
->>>>>>> dev-peters
 }
 
