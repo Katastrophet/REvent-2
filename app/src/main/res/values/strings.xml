@@ -5,11 +5,11 @@
     <string name="activityVE">Vorgemerkte Events</string>
     <string name="activityE">Event</string>
     <string name="activitySettings">Settings</string>
-<<<<<<< HEAD
+
     <string name="title_activity_maps">Karte</string>
-=======
+
     <string name="activityVorgeschlageneEvents">VorgeschlageneEvents</string>
->>>>>>> dev-peters
+
     //Event
     <string name="date">Datum:</string>
     <string name="time">Uhrzeit:</string>

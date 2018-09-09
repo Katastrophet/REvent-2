@@ -143,7 +143,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             int tag = (int) marker.getTag();
             associatedEvent = filterId(table, tag);
             if (associatedEvent != null) {
-                navigationMenu.showEvent(associatedEvent.getTitle(), associatedEvent.getDate().toString(), associatedEvent.getTime().toString(), associatedEvent.getLocation(), associatedEvent.getOrganizer(), associatedEvent.getType());
+                navigationMenu.showEvent(associatedEvent.getTitle(), associatedEvent.getDate().toString(), associatedEvent.getTime().toString(), associatedEvent.getLocation(), associatedEvent.getOrganizer(), associatedEvent.getType(),associatedEvent.getNotes(),associatedEvent.getId());
             }
         }
     }

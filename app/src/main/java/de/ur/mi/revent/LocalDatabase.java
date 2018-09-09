@@ -29,6 +29,8 @@ public class LocalDatabase {
     public static final String KEY_DATE = "date";
     public static final String KEY_TIME = "time";
     public static final String KEY_LOCATION = "location";
+    public static final String KEY_NOTES="notes";
+
 
     public static final int COLUMN_TITLE_INDEX = 1;
     public static final int COLUMN_TYPE_INDEX = 2;
@@ -36,6 +38,9 @@ public class LocalDatabase {
     public static final int COLUMN_DATE_INDEX = 4;
     public static final int COLUMN_TIME_INDEX = 5;
     public static final int COLUMN_LOCATION_INDEX = 6;
+    public static final int COLUMN_NOTES_INDEX= 7;
+    public static final int COLUMN_ID_INDEX = 8;
+
 
     private MarkedEventsDBOpenHelper dbHelper;
 
@@ -63,11 +68,12 @@ public class LocalDatabase {
         itemValues.put(KEY_TITLE, item.getTitle());
         itemValues.put(KEY_TYPE, item.getType());
         itemValues.put(KEY_ORGANIZER, item.getOrganizer());
-
         itemValues.put(KEY_DATE, item.getDate().toString());
-
         itemValues.put(KEY_TIME, item.getTime().toString());
         itemValues.put(KEY_LOCATION, item.getLocation());
+        itemValues.put(KEY_NOTES, item.getNotes());
+        itemValues.put(KEY_ID, item.getId());
+
 
 
         return db.insert(DATABASE_TABLE, null, itemValues);
@@ -81,7 +87,7 @@ public class LocalDatabase {
 
     public ArrayList<EventItem> getAllEventItems() {
         ArrayList<EventItem> items = new ArrayList<EventItem>();
-        Cursor cursor = db.query(DATABASE_TABLE, new String[] { KEY_ID,KEY_TITLE,KEY_TYPE,KEY_ORGANIZER,KEY_DATE,KEY_TIME,KEY_LOCATION}, null, null, null, null, null);
+        Cursor cursor = db.query(DATABASE_TABLE, new String[] { KEY_TITLE,KEY_TYPE,KEY_ORGANIZER,KEY_DATE,KEY_TIME,KEY_LOCATION,KEY_NOTES,KEY_ID}, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
                 String title = cursor.getString(COLUMN_TITLE_INDEX);
@@ -91,9 +97,11 @@ public class LocalDatabase {
                 LocalDate date=LocalDate.parse(strDate);
                 String strTime = cursor.getString(COLUMN_TIME_INDEX);
                 String location = cursor.getString(COLUMN_LOCATION_INDEX);
+                String notes = cursor.getString(COLUMN_NOTES_INDEX);
+                Integer id =cursor.getInt(COLUMN_ID_INDEX);
 
                 System.out.println(title);
-                items.add(new EventItem(title,type,organizer,date,LocalTime.parse(strTime),location));
+                items.add(new EventItem(title,type,organizer,date,LocalTime.parse(strTime),location,notes,id));
 
             } while (cursor.moveToNext());
         }
@@ -105,14 +113,14 @@ public class LocalDatabase {
     private class MarkedEventsDBOpenHelper extends SQLiteOpenHelper {
         private static final String DATABASE_CREATE = "create table "
                 + DATABASE_TABLE + " ("
-                + KEY_ID + " integer primary key autoincrement, "
                 + KEY_TITLE + " text not null, "
                 + KEY_TYPE + " text not null, "
                 + KEY_ORGANIZER +" text not null, "
                 + KEY_DATE + " text not null, "
                 + KEY_TIME + " text, "
-                + KEY_LOCATION + " text);";
-
+                + KEY_LOCATION + " text, "
+                + KEY_NOTES + "text, "
+                + KEY_ID + " integer primary key);";
         public MarkedEventsDBOpenHelper(Context c, String dbname,
                                 SQLiteDatabase.CursorFactory factory, int version) {
             super(c, dbname, factory, version);

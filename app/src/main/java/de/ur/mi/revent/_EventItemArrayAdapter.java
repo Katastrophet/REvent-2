@@ -33,7 +33,6 @@ public class _EventItemArrayAdapter extends ArrayAdapter{
             TextView eventType=(TextView)v.findViewById(R.id.event_type);
             eventTitle.setText(event.getTitle());
             eventDate.setText(event.getDate().toString());
-            //eventType.setText(event.getType());
         }
         return v;
     }

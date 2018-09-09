@@ -43,7 +43,7 @@ public class KommendeEvents extends Activity implements DownloadListener{
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 EventItem eventItem =(EventItem) eventList_KE.getItemAtPosition(i);
-                navigationMenu.showEvent(eventItem.getTitle(),eventItem.getDate().toString(),eventItem.getTime().toString(),eventItem.getLocation(),eventItem.getOrganizer(),eventItem.getType());
+                navigationMenu.showEvent(eventItem.getTitle(),eventItem.getDate().toString(),eventItem.getTime().toString(),eventItem.getLocation(),eventItem.getOrganizer(),eventItem.getType(),eventItem.getNotes(),eventItem.getId());
             }
         });
         //

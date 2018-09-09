@@ -33,6 +33,8 @@ public class Event extends Activity{
     private String eventLocation;
     private String eventOrganizer;
     private String eventType;
+    private String eventNotes;
+    private Integer eventID;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -50,7 +52,9 @@ public class Event extends Activity{
          eventLocation=extras.getString("event_location");
          eventOrganizer=extras.getString("event_organizer");
          eventType=extras.getString("event_type");
-        setTitle(eventTitle);
+         eventNotes=extras.getString("event_notes");
+         eventID=extras.getInt("event_ID");
+         setTitle(eventTitle);
 
 
         date=(TextView) findViewById(R.id.date);
@@ -74,7 +78,7 @@ public class Event extends Activity{
                 if (getCheckedState()){
                     switch_teilnehmen.getThumbDrawable().setTint(getResources().getColor(R.color._Green));
                     switch_teilnehmen.getTrackDrawable().setTint(getResources().getColor(R.color._Green));
-                    markedEventsDatabase.insertEventItem(new EventItem(eventTitle,eventType,eventOrganizer, LocalDate.parse(eventDate), LocalTime.parse(eventTime),eventLocation));
+                    markedEventsDatabase.insertEventItem(new EventItem(eventTitle,eventType,eventOrganizer, LocalDate.parse(eventDate), LocalTime.parse(eventTime),eventLocation,eventNotes,eventID));
 
                     ArrayList stuff=markedEventsDatabase.getAllEventItems();
                     System.out.println(stuff.size());
@@ -82,7 +86,7 @@ public class Event extends Activity{
                 else{
                     switch_teilnehmen.getThumbDrawable().setTint(getResources().getColor(R.color._Grey));
                     switch_teilnehmen.getTrackDrawable().setTint(getResources().getColor(R.color._Grey));
-                    markedEventsDatabase.removeEventItem(new EventItem(eventTitle,eventType,eventOrganizer, LocalDate.parse(eventDate), LocalTime.parse(eventTime),eventLocation));
+                    markedEventsDatabase.removeEventItem(new EventItem(eventTitle,eventType,eventOrganizer, LocalDate.parse(eventDate), LocalTime.parse(eventTime),eventLocation,eventNotes,eventID));
 
 
                     ArrayList stuff=markedEventsDatabase.getAllEventItems();

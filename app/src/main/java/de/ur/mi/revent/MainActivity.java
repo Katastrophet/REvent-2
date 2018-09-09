@@ -30,21 +30,15 @@ public class MainActivity extends Activity implements DownloadListener {
     private Button button_RecommendedEvents;
 
     @Override
-<<<<<<< HEAD
+
     //  TODO: Sort List
-=======
->>>>>>> dev-peters
+
+
     //  TODO: Show Map in Event
     //  TODO: Settings
     //  TODO: Notes
     //  TODO: Show Distance in ?(Event)
-<<<<<<< HEAD
-=======
-    //  TODO: Layout
-    //  TODO: Menu sidemenu
-    //  TODO: Docu
-    //  TODO: Cleanup
->>>>>>> dev-peters
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -74,8 +68,7 @@ public class MainActivity extends Activity implements DownloadListener {
 
         setContentView(R.layout.activity_main);
         navigationMenu=new _NavigationMenu(this);
-<<<<<<< HEAD
-=======
+
         eventList_MainMarkedEvents=(ListView)findViewById(R.id.eventList_mainMarkedEvents);
         button_UpcomingEvents=(Button)findViewById(R.id.button_UpcomingEvents);
         button_RecommendedEvents=(Button)findViewById(R.id.button_RecommendedEvents);
@@ -89,7 +82,7 @@ public class MainActivity extends Activity implements DownloadListener {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 EventItem eventItem =(EventItem) eventList_MainMarkedEvents.getItemAtPosition(i);
-               navigationMenu.showEvent(eventItem.getTitle(),eventItem.getDate().toString(),eventItem.getTime().toString(),eventItem.getLocation(),eventItem.getOrganizer(),eventItem.getType());
+               navigationMenu.showEvent(eventItem.getTitle(),eventItem.getDate().toString(),eventItem.getTime().toString(),eventItem.getLocation(),eventItem.getOrganizer(),eventItem.getType(),eventItem.getNotes(),eventItem.getId());
            }
         });
 
@@ -110,7 +103,7 @@ public class MainActivity extends Activity implements DownloadListener {
     private void initDatabase() {
         markedEventsDatabase = new LocalDatabase(this);
         markedEventsDatabase.open();
->>>>>>> dev-peters
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){

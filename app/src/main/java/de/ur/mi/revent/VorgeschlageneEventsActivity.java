@@ -48,7 +48,7 @@ public class VorgeschlageneEventsActivity extends Activity implements DownloadLi
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 EventItem eventItem =(EventItem) eventList_VorgeschlageneEvents.getItemAtPosition(i);
-                navigationMenu.showEvent(eventItem.getTitle(),eventItem.getDate().toString(),eventItem.getTime().toString(),eventItem.getLocation(),eventItem.getOrganizer(),eventItem.getType());
+                navigationMenu.showEvent(eventItem.getTitle(),eventItem.getDate().toString(),eventItem.getTime().toString(),eventItem.getLocation(),eventItem.getOrganizer(),eventItem.getType(),eventItem.getNotes(),eventItem.getId());
             }
         });
         //

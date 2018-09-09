@@ -36,7 +36,7 @@ public class _NavigationMenu {
         Intent i = new Intent(activity,  MapsActivity.class);
         activity.startActivity(i);
     }
-    public void showEvent(String eventTitle, String eventDate, String eventTime, String eventLocation, String eventOrganizer, String eventType){
+    public void showEvent(String eventTitle, String eventDate, String eventTime, String eventLocation, String eventOrganizer, String eventType,String eventNotes,Integer eventID){
         Intent i = new Intent(activity,  Event.class);
         i.putExtra("event_title",eventTitle);
         i.putExtra("event_date",eventDate);
@@ -44,6 +44,8 @@ public class _NavigationMenu {
         i.putExtra("event_location",eventLocation);
         i.putExtra("event_organizer",eventOrganizer);
         i.putExtra("event_type",eventType);
+        i.putExtra("event_notes",eventNotes);
+        i.putExtra("event_ID",eventID);
         activity.startActivity(i);
     }
     public void showVorgemerkteEvents(){
