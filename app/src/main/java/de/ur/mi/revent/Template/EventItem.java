@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class EventItem {
+public class EventItem implements Comparable<EventItem>{
 
     private String title;
     private String type;
@@ -51,8 +51,23 @@ public class EventItem {
 
     //public int getDistance() {return distance;}
 
+<<<<<<< HEAD
     public String getNotes() { return notes; }
 
     public int getId() { return id;}
+=======
+    public int setDistance(int distance) {
+        this.distance = distance;
+        return 0;
+    }
+
+    public int compareTo(EventItem eventItem){
+        int compResult=date.compareTo(eventItem.getDate());
+        if (compResult==0){
+            compResult=time.compareTo(eventItem.getTime());
+        }
+        return compResult;
+    }
+>>>>>>> dev-peters
 }
 

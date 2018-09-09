@@ -8,6 +8,8 @@ import android.view.MenuItem;
 
 import java.time.LocalDate;
 
+import de.ur.mi.revent.Template.EventItem;
+
 public class _NavigationMenu {
     private Activity activity;
     public _NavigationMenu(Activity activity){
@@ -25,6 +27,7 @@ public class _NavigationMenu {
             case R.id.menu_REvent: showMainActivity();break;
             case R.id.menu_Maps: showMap();break;
             case R.id.menu_Settings: showSettings();break;
+            case R.id.menu_VorgeschlageneEvents: showVorgeschlageneEvents();break;
         }
         return true;
     }
@@ -33,7 +36,7 @@ public class _NavigationMenu {
         Intent i = new Intent(activity,  MapsActivity.class);
         activity.startActivity(i);
     }
-    public void showEvent(String eventTitle, String eventDate, String eventTime,String eventLocation,String eventOrganizer,String eventType){
+    public void showEvent(String eventTitle, String eventDate, String eventTime, String eventLocation, String eventOrganizer, String eventType){
         Intent i = new Intent(activity,  Event.class);
         i.putExtra("event_title",eventTitle);
         i.putExtra("event_date",eventDate);
@@ -57,6 +60,10 @@ public class _NavigationMenu {
     }
     public void showSettings(){
         Intent i = new Intent(activity,  Settings.class);
+        activity.startActivity(i);
+    }
+    public void showVorgeschlageneEvents(){
+        Intent i = new Intent(activity,  VorgeschlageneEventsActivity.class);
         activity.startActivity(i);
     }
 }
