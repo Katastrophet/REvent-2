@@ -32,7 +32,9 @@ public class MainActivity extends Activity implements DownloadListener {
 
     @Override
 
+
     //  TODO: Show Map in Event
+    //  TODO: Sort List
     //  TODO: Settings
     //  TODO: Notes
 
@@ -118,12 +120,10 @@ public class MainActivity extends Activity implements DownloadListener {
             case PERMISSIONS_REQUEST_CODE: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Berechtigung erhalten.", Toast.LENGTH_SHORT).show();
                     Toast.makeText(this, R.string.permission_granted, Toast.LENGTH_SHORT).show();
                     init();
                     //
                 } else {
-                    Toast.makeText(this, "Berechtigung nicht erhalten.", Toast.LENGTH_LONG).show();
                     Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_LONG).show();
                 }
             }
