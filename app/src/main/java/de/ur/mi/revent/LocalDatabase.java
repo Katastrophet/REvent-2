@@ -18,7 +18,7 @@ import de.ur.mi.revent.Template.EventItem;
 
 public class LocalDatabase {
     private static final String DATABASE_NAME = "markedEvents.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
 
     private static final String DATABASE_TABLE = "markedEvents";
 
@@ -32,14 +32,14 @@ public class LocalDatabase {
     public static final String KEY_NOTES="notes";
 
 
-    public static final int COLUMN_TITLE_INDEX = 1;
-    public static final int COLUMN_TYPE_INDEX = 2;
-    public static final int COLUMN_ORGANIZER_INDEX = 3;
-    public static final int COLUMN_DATE_INDEX = 4;
-    public static final int COLUMN_TIME_INDEX = 5;
-    public static final int COLUMN_LOCATION_INDEX = 6;
-    public static final int COLUMN_NOTES_INDEX= 7;
-    public static final int COLUMN_ID_INDEX = 8;
+    public static final int COLUMN_TITLE_INDEX = 0;
+    public static final int COLUMN_TYPE_INDEX = 1;
+    public static final int COLUMN_ORGANIZER_INDEX = 2;
+    public static final int COLUMN_DATE_INDEX = 3;
+    public static final int COLUMN_TIME_INDEX = 4;
+    public static final int COLUMN_LOCATION_INDEX = 5;
+    public static final int COLUMN_NOTES_INDEX= 6;
+    public static final int COLUMN_ID_INDEX = 7;
 
 
     private MarkedEventsDBOpenHelper dbHelper;
@@ -68,7 +68,9 @@ public class LocalDatabase {
         itemValues.put(KEY_TITLE, item.getTitle());
         itemValues.put(KEY_TYPE, item.getType());
         itemValues.put(KEY_ORGANIZER, item.getOrganizer());
+
         itemValues.put(KEY_DATE, item.getDate().toString());
+
         itemValues.put(KEY_TIME, item.getTime().toString());
         itemValues.put(KEY_LOCATION, item.getLocation());
         itemValues.put(KEY_NOTES, item.getNotes());
@@ -119,7 +121,7 @@ public class LocalDatabase {
                 + KEY_DATE + " text not null, "
                 + KEY_TIME + " text, "
                 + KEY_LOCATION + " text, "
-                + KEY_NOTES + "text, "
+                + KEY_NOTES + " text, "
                 + KEY_ID + " integer primary key);";
         public MarkedEventsDBOpenHelper(Context c, String dbname,
                                 SQLiteDatabase.CursorFactory factory, int version) {

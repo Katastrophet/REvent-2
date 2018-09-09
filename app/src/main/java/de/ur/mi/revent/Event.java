@@ -3,11 +3,25 @@ package de.ur.mi.revent;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import de.ur.mi.revent.AppConfig.AppConfig;
+import de.ur.mi.revent.Navigation.NavigationController;
+
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -36,9 +50,19 @@ public class Event extends Activity{
     private String eventNotes;
     private Integer eventID;
 
+    //Map
+    private MarkerOptions ownLocationMarkerOptions;
+    private Marker ownLocationMarker;
+    private NavigationController navigationController;
+    private LatLng lastKnownLocation;
+    private LatLng regensburg;
+    private GoogleMap mMap;
+
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+
+
         navigationMenu=new _NavigationMenu(this);
         Intent i=getIntent();
         Bundle extras=i.getExtras();
@@ -55,7 +79,6 @@ public class Event extends Activity{
          eventNotes=extras.getString("event_notes");
          eventID=extras.getInt("event_ID");
          setTitle(eventTitle);
-
 
         date=(TextView) findViewById(R.id.date);
         time=(TextView) findViewById(R.id.time);
@@ -92,8 +115,11 @@ public class Event extends Activity{
                     ArrayList stuff=markedEventsDatabase.getAllEventItems();
                     System.out.println(stuff.size());
                 }
+                //Add/DeleteLocalLibrary
             }
         });
+
+
         checkIfEventChecked();
 
     }
@@ -117,6 +143,8 @@ public class Event extends Activity{
     public boolean getCheckedState(){
         return switch_teilnehmen.isChecked();
     }
+
+
     private boolean checkIfEventChecked(){
         boolean switchState=false;
         for (int i=0;i<markedEventsDatabase.getAllEventItems().size();i++){
@@ -130,6 +158,4 @@ public class Event extends Activity{
         System.out.println(switchState);
         return switchState;
     }
-
-
 }
