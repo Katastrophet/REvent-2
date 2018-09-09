@@ -21,7 +21,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
+import de.ur.mi.revent.AppConfig.AppConfig;
 import de.ur.mi.revent.MapsActivity;
+import de.ur.mi.revent.R;
 
 public class NavigationController implements LocationListener {
 
@@ -53,19 +55,17 @@ public class NavigationController implements LocationListener {
 
     public void setNavigationListener(NavigationListener navigationListener) {
         this.navigationListener = navigationListener;
-        //Set Listener, make for Loop with setTarget + getDistance
     }
 
     public void startNavigation(Context con) {
         if (!(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))){
             //Weise den Nutzer daraufhin, dass die Standortbestimmung aktiviert sein muss um den Standort anzuzeigen. Duh.
-            Toast.makeText(con, "GPS muss aktiviert sein um den eigenen Standort einsehen zu können.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(con, R.string.gps_deactivated, Toast.LENGTH_SHORT).show();
         }
             if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationManager.requestLocationUpdates(bestProvider, 3000, 0, this);
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, this);
+                locationManager.requestLocationUpdates(bestProvider, AppConfig.LOCATION_UPDATE_INTERVAL, AppConfig.LOCATION_DISTANCE_THRESHOLD, this);
+                //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, AppConfig.LOCATION_UPDATE_INTERVAL, AppConfig.LOCATION_DISTANCE_THRESHOLD, this);
             }
-
     }
 
     public void stopNavigation() {
@@ -96,8 +96,7 @@ public class NavigationController implements LocationListener {
     public LatLng getLastKnownLocation(){
         double latitude = lastKnownLocation.getLatitude();
         double longitude = lastKnownLocation.getLongitude();
-        LatLng lastKnownLocationInLatLng = new LatLng(latitude, longitude);
-        return lastKnownLocationInLatLng;
+        return new LatLng(latitude, longitude);
     }
 
     public LatLng getLocationFromAddress(String strAddress, Context con) {
@@ -111,9 +110,9 @@ public class NavigationController implements LocationListener {
             Address location = address.get(0);
             double lat = location.getLatitude();
             double lng = location.getLongitude();
-            LatLng pos = new LatLng(lat, lng);
-            return pos;
-        } catch (Exception e) {
+            return new LatLng(lat, lng);
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return null;
         }

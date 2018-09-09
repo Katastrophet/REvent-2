@@ -1,13 +1,11 @@
 <resources>
     <string name="app_name">REvent</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="title_comming_events_activity">Comming Events</string>
-    <string name="button_map">Show Map</string>
     //Labels
     <string name="activityKE">Kommende Events</string>
     <string name="activityVE">Vorgemerkte Events</string>
     <string name="activityE">Event</string>
     <string name="activitySettings">Settings</string>
+    <string name="title_activity_maps">Karte</string>
     //Event
     <string name="date">Datum:</string>
     <string name="time">Uhrzeit:</string>
@@ -16,9 +14,15 @@
     <string name="eventType">Eventtyp:</string>
     <string name="notes">Anmerkungen:</string>
     <string name="switch_teilnehmen">Teilnehmen</string>
-    <string name="button_commingEvents">Show comming Events</string>
     //Settings
     <string name="settings_ausflug">Ausflug</string>
     <string name="settings_vortrag">Vortrag</string>
     <string name="settings_party">Party</string>
+    //Karte
+    <string name="connection_failure">REvent benötigt eine aktive Internetverbindung um richtig zu funktionieren!</string>
+    <string name="connection_success">aktive Internetverbindung gefunden!</string>
+    <string name="error_occured">Leider ist ein Fehler aufgetreten.</string>
+    <string name="own_location">Deine Position</string>
+    <string name="meter">m</string>
+    <string name="gps_deactivated">GPS muss aktiviert sein um den eigenen Standort einsehen zu können.</string>
 </resources>

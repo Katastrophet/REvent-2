@@ -1,8 +1,6 @@
 package de.ur.mi.revent;
 
-import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,20 +19,21 @@ import com.treebo.internetavailabilitychecker.InternetAvailabilityChecker;
 import com.treebo.internetavailabilitychecker.InternetConnectivityListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import de.ur.mi.revent.AppConfig.AppConfig;
 import de.ur.mi.revent.Download.DownloadListener;
 import de.ur.mi.revent.Download.DownloadManager;
 import de.ur.mi.revent.Navigation.NavigationController;
 import de.ur.mi.revent.Navigation.NavigationListener;
 import de.ur.mi.revent.Template.EventItem;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DownloadListener, NavigationListener, InternetConnectivityListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DownloadListener, NavigationListener, InternetConnectivityListener, GoogleMap.OnInfoWindowClickListener {
     private ArrayList<EventItem> table;
-    private Context con;
     private GoogleMap mMap;
     private String strAddress;
+    private EventItem associatedEvent;
     private ArrayList<MarkerOptions> eventMarkerOptions;
+    private ArrayList<Integer> idList;
     private MarkerOptions ownLocationMarkerOptions;
     private Marker ownLocationMarker;
     private NavigationController navigationController;
@@ -74,25 +73,90 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         regensburg = new LatLng(49.01, 12.1);
+        setOwnLocationMarker();
+        //Bewege Kamera nach Regensburg - TODO: Koordinate auslagern
+        drawEventMarkers();
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(regensburg));
+        mMap.setOnInfoWindowClickListener(this);
+    }
 
+    public void setOwnLocationMarker(){
         //Finde und zeige die zuletzt gefundene Position des Nutzers
         lastKnownLocation = navigationController.getLastKnownLocation();
         ownLocationMarkerOptions = new MarkerOptions()
                 .position(lastKnownLocation)
-                .title("Deine Position")
+                .title(getString(R.string.own_location))
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                 .zIndex(1.0f);
         ownLocationMarker = mMap.addMarker(ownLocationMarkerOptions);
-
-        //Bewege Kamera nach Regensburg - TODO: Koordinate auslagern
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(regensburg));
-
-        drawEventMarkers();
+        ownLocationMarker.setTag(AppConfig.OWN_POSITION);
     }
 
     public void showLocation(){
         lastKnownLocation = navigationController.getLastKnownLocation();
         ownLocationMarker.setPosition(lastKnownLocation);
+    }
+
+    private void getEventMarkers(){
+        //Stellt die Daten für die Eventmarker zusammen.
+        eventMarkerOptions = new ArrayList<>();
+        idList = new ArrayList<>();
+        if(table!=null || !table.isEmpty()) {
+            //Positionen und Distanz der Events werden anhand ihrer Adresse ermittelt und eingetragen.
+            for (int i = 0; i < table.size(); i++) {
+                strAddress = table.get(i).getLocation();
+                LatLng pos = navigationController.getLocationFromAddress(strAddress, this);
+                if(pos!=null) {
+                    float[] distance = navigationController.getEstimatedDistanceForLocation(pos);
+                    String distanceString = String.valueOf(Math.round(distance[0]));
+                    MarkerOptions eventMarkerOptions = new MarkerOptions()
+                            .position(pos)
+                            .title(table.get(i).getTitle())
+                            .snippet(distanceString + getString(R.string.meter));
+                    this.eventMarkerOptions.add(eventMarkerOptions);
+                    this.idList.add(table.get(i).getId());
+                } else {
+                    continue;
+                }
+
+            }
+        }
+    }
+
+    private void drawEventMarkers() {
+        //Zeichnet die Eventmarker anhand der in eventMarkerOptions gesammelten Optionen.
+        if (!eventMarkerOptions.isEmpty() && eventMarkerOptions != null) {
+            for (int i = 0; i < eventMarkerOptions.size(); i++) {
+                if (eventMarkerOptions.get(i) != null) {
+                    Marker eventMarker = mMap.addMarker(eventMarkerOptions.get(i));
+                    eventMarker.setTag(idList.get(i));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        if(marker.getTag().toString().equals(AppConfig.OWN_POSITION)) {
+            return;
+        } else {
+            int tag = (int) marker.getTag();
+            associatedEvent = filterId(table, tag);
+            if (associatedEvent != null) {
+                navigationMenu.showEvent(associatedEvent.getTitle(), associatedEvent.getDate().toString(), associatedEvent.getTime().toString(), associatedEvent.getLocation(), associatedEvent.getOrganizer(), associatedEvent.getType());
+            }
+        }
+    }
+
+    public EventItem filterId(ArrayList<EventItem> table, int id) {
+        associatedEvent = null;
+        EventItem result = null;
+        for(int k = 0; k<table.size(); k++) {
+            if(id == (int) table.get(k).getId()){
+                result = table.get(k);
+            }
+        }
+        return result;
     }
 
     private void getDownloadData(){
@@ -126,7 +190,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             drawEventMarkers();
         } catch(Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Leider ist ein Fehler aufgetreten.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_occured, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -144,6 +208,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged() {
         showLocation();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         navigationMenu.onCreateOptionsMenu(menu);
@@ -167,7 +232,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
        try {
            if (isConnected && table.isEmpty()) {
                //(Wieder) Internetverbindung vorhanden, aber table wurde noch nicht befüllt.
-               Toast.makeText(this, "aktive Internetverbindung gefunden!", Toast.LENGTH_SHORT).show();
+               Toast.makeText(this, R.string.connection_success, Toast.LENGTH_SHORT).show();
                failed = true;
                //der Boolean 'failed' deutet daraufhin dass fehlerhaft beendet wurde (da keine Internetverbindung),
                // sofern man anschließend in getDownloadData case 'FINISHED' landet.
@@ -175,45 +240,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                drawEventMarkers();
            } else if (!(isConnected)) {
                //Keine Internetverbindung
-               Toast.makeText(this, "REvent benötigt eine aktive Internetverbindung um richtig zu funktionieren!", Toast.LENGTH_SHORT).show();
+               Toast.makeText(this, R.string.connection_failure, Toast.LENGTH_SHORT).show();
            }
        } catch (Exception e){
            e.printStackTrace();
        }
-    }
-
-    private void getEventMarkers(){
-        //Stellt die Daten für die Eventmarker zusammen.
-        eventMarkerOptions = new ArrayList<>();
-        if(!table.isEmpty()) {
-            //Positionen und Distanz der Events werden anhand ihrer Adresse ermittelt und eingetragen.
-            for (int i = 0; i < table.size(); i++) {
-                strAddress = table.get(i).getLocation();
-                LatLng pos = navigationController.getLocationFromAddress(strAddress, this);
-                if(pos!=null) {
-                    float[] distance = navigationController.getEstimatedDistanceForLocation(pos);
-                    String distanceString = String.valueOf(Math.round(distance[0]));
-                    MarkerOptions eventMarkerOptions = new MarkerOptions()
-                            .position(pos)
-                            .title(table.get(i).getTitle())
-                            .snippet(distanceString + " m");
-                    this.eventMarkerOptions.add(eventMarkerOptions);
-                } else {
-                    continue;
-                }
-
-            }
-        }
-    }
-
-    private void drawEventMarkers() {
-        //Zeichnet die Eventmarker anhand der in eventMarkerOptions gesammelten Optionen.
-        if (!eventMarkerOptions.isEmpty() && eventMarkerOptions != null) {
-            for (int i = 0; i < eventMarkerOptions.size(); i++) {
-                if (eventMarkerOptions.get(i) != null) {
-                    mMap.addMarker(eventMarkerOptions.get(i));
-                }
-            }
-        }
     }
 }

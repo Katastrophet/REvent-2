@@ -6,7 +6,7 @@ import de.ur.mi.revent.Template.EventItem;
 
 public class DownloadManager {
     private static DataDownload dataDownloader;
-    private final static String ADDRESS = "https://json-server-android-db.herokuapp.com/events";
+    private final static String ADDRESS = "https://json-server-android-db.herokuapp.com/";
 
     public static void startDownload(){
         dataDownloader = new DataDownload();
