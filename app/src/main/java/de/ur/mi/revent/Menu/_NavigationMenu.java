@@ -1,4 +1,4 @@
-package de.ur.mi.revent;
+package de.ur.mi.revent.Menu;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,7 +8,15 @@ import android.view.MenuItem;
 
 import java.time.LocalDate;
 
+import de.ur.mi.revent.Event;
+import de.ur.mi.revent.KommendeEvents;
+import de.ur.mi.revent.MainActivity;
+import de.ur.mi.revent.MapsActivity;
+import de.ur.mi.revent.R;
+import de.ur.mi.revent.Settings;
 import de.ur.mi.revent.Template.EventItem;
+import de.ur.mi.revent.VorgemerkteEvents;
+import de.ur.mi.revent.VorgeschlageneEventsActivity;
 
 public class _NavigationMenu {
     private Activity activity;

@@ -9,36 +9,55 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:scrollbars="vertical"
-        android:layout_weight="50">-->
+        android:layout_weight="45">-->
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp"/>
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp"/>
         <TextView
             android:id="@+id/location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp"/>
         <TextView
             android:id="@+id/fachschaft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp"/>
         <TextView
             android:id="@+id/eventType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp"/>
         <TextView
             android:id="@+id/notes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
             android:textSize="18sp"/>
         <Switch
             android:id="@+id/switch_teilnehmen"
@@ -49,7 +68,10 @@
             android:textOn="@string/switch_textOn"
             android:thumbTint="@color/_Grey"
             android:trackTint="@color/_Grey"
-            android:textSize="20sp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp"/>
     </LinearLayout>
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -59,6 +81,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             map:cameraZoom="12"
-            android:layout_weight="50"
+            android:layout_weight="55"
             tools:context=".Event" />
 </LinearLayout>

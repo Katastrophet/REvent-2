@@ -15,7 +15,7 @@
     <string name="fachschaft">Fachschaft:</string>
     <string name="eventType">Eventtyp:</string>
     <string name="notes">Anmerkungen:</string>
-    <string name="switch_teilnehmen">Teilnehmen</string>
+    <string name="switch_teilnehmen">Teilnehmen:</string>
     <string name="switch_textOff">AUS</string>
     <string name="switch_textOn">EIN</string>
     //Settings
@@ -32,7 +32,7 @@
     <string name="settingsFA_jura">Fachschaft Jura</string>
     <string name="settingsFA_Kath">Fachschaft Katholische Theologie</string>
     <string name="settingsFA_Lehr">Fachschaft Lehramt</string>
-    <string name="settingsFA_Math">Fachschaft Mathe/Physik</string>
+    <string name="settingsFA_Math">Fachschaft Mathe</string>
     <string name="settingsFA_Phy">Fachschaft Physik</string>
     <string name="settingsFA_Phar">Fachschaft Pharmazie</string>
     <string name="settingsFA_Phil">Fachschaft Philosophie</string>

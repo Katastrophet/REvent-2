@@ -21,7 +21,6 @@ import de.ur.mi.revent.Template.EventItem;
 
 public class DataDownload extends AsyncTask<String, Void, Void>{
     private ArrayList<EventItem> table = new ArrayList<>();
-    private ArrayList<String> fachschaften = new ArrayList<>();
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static DateTimeFormatter timeFormatter =  DateTimeFormatter.ofPattern("HH:mm:ss");
 
@@ -32,16 +31,12 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
 
     @Override
     protected Void doInBackground(String... params) {
-        System.out.println("doInBackground");
         JSONArray jsonArray;
-        JSONArray jsonArrayFachschaften;
         new JSONObject();
 
         try {
-            jsonArray = getJSONArrayFromURL(params[0]+"events");
+            jsonArray = getJSONArrayFromURL(params[0]);
             processJson(jsonArray);
-            jsonArrayFachschaften = getJSONArrayFromURL(params[0]+"fachschaften");
-            processFachschaftenJSON(jsonArrayFachschaften);
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
@@ -69,7 +64,6 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
                 String location = jsonObjectEvent.getString("address");
                 String notes = jsonObjectEvent.getString("notes");
                 int id = jsonObjectEvent.getInt("id");
-                System.out.println(title);
                 LocalDate date = getDateFromString(dateString);
                 LocalTime time = getTimeFromString(timeString);
 
@@ -80,19 +74,6 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void processFachschaftenJSON(JSONArray jsonArray){
-        try{
-            for(int i = 0; i<jsonArray.length(); i++){
-                JSONObject jsonObjectFachschaft = jsonArray.getJSONObject(i);
-                String fachschaft = jsonObjectFachschaft.getString("name");
-                fachschaften.add(fachschaft);
-            }
-        }
-        catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -126,8 +107,6 @@ public class DataDownload extends AsyncTask<String, Void, Void>{
     public ArrayList<EventItem> getData() {
         return table;
     }
-
-    public ArrayList<String> getFachschaften() { return fachschaften; }
 
     public void setListener(DownloadListener listener) {
         this.listener = listener;

@@ -19,18 +19,20 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import de.ur.mi.revent.AppConfig.AppConfig;
+import de.ur.mi.revent.LocalDatabase.LocalDatabase;
+import de.ur.mi.revent.Menu._NavigationMenu;
 import de.ur.mi.revent.Navigation.NavigationController;
 
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 
 import de.ur.mi.revent.Navigation.NavigationListener;
 import de.ur.mi.revent.Template.EventItem;
 
 public class Event extends FragmentActivity implements OnMapReadyCallback, NavigationListener{
     private _NavigationMenu navigationMenu;
+
     private TextView date;
     private TextView time;
     private TextView location;
@@ -38,9 +40,9 @@ public class Event extends FragmentActivity implements OnMapReadyCallback, Navig
     private TextView type;
     private TextView notes;
     private Switch switch_teilnehmen;
-    //!
+
     private LocalDatabase markedEventsDatabase;
-    //!
+
     private String eventTitle;
     private String eventDate;
     private String eventTime;
@@ -49,7 +51,6 @@ public class Event extends FragmentActivity implements OnMapReadyCallback, Navig
     private String eventType;
     private String eventNotes;
     private Integer eventID;
-
     //Map
     private MarkerOptions ownLocationMarkerOptions;
     private Marker ownLocationMarker;
@@ -61,75 +62,34 @@ public class Event extends FragmentActivity implements OnMapReadyCallback, Navig
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.event_map);
-        mapFragment.getMapAsync(this);
-
-        navigationController = new NavigationController(this);
-        navigationController.setNavigationListener(this);
-        navigationController.startNavigation(getApplicationContext());
-
-        navigationMenu=new _NavigationMenu(this);
         Intent i=getIntent();
         Bundle extras=i.getExtras();
-        //!
+
+        navigationMenu=new _NavigationMenu(this);
+        getMapFragment();
+        initNavigation();
+
         markedEventsDatabase = MainActivity.getMarkedEventsDatabase();
 
-        //!
-         eventTitle=extras.getString("event_title");
-         eventDate=extras.getString("event_date");
-         eventTime=extras.getString("event_time");
-         eventLocation=extras.getString("event_location");
-         eventOrganizer=extras.getString("event_organizer");
-         eventType=extras.getString("event_type");
-         eventNotes=extras.getString("event_notes");
-         eventID=extras.getInt("event_ID");
-         setTitle(eventTitle);
-
-        date=(TextView) findViewById(R.id.date);
-        time=(TextView) findViewById(R.id.time);
-        location=(TextView) findViewById(R.id.location);
-        fachschaft=(TextView) findViewById(R.id.fachschaft);
-        type=(TextView) findViewById(R.id.eventType);
-        notes=(TextView) findViewById(R.id.notes);
-        switch_teilnehmen=(Switch)findViewById(R.id.switch_teilnehmen);
-
-        date.setText(getString(R.string.date)+" "+eventDate);
-        time.setText(getString(R.string.time)+" "+eventTime);
-        location.setText(getString(R.string.location)+" "+eventLocation);
-        fachschaft.setText(getString(R.string.fachschaft)+" "+eventOrganizer);
-        type.setText(getString(R.string.eventType)+" "+eventType);
-        notes.setText(getString(R.string.notes)+" "+eventNotes);
-        switch_teilnehmen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //ChangeColor
-                if (getCheckedState()){
-                    switch_teilnehmen.getThumbDrawable().setTint(getResources().getColor(R.color._Green));
-                    switch_teilnehmen.getTrackDrawable().setTint(getResources().getColor(R.color._Green));
-                    markedEventsDatabase.insertEventItem(new EventItem(eventTitle,eventType,eventOrganizer, LocalDate.parse(eventDate), LocalTime.parse(eventTime),eventLocation,eventNotes,eventID));
-                }
-                else{
-                    switch_teilnehmen.getThumbDrawable().setTint(getResources().getColor(R.color._Grey));
-                    switch_teilnehmen.getTrackDrawable().setTint(getResources().getColor(R.color._Grey));
-                    markedEventsDatabase.removeEventItem(new EventItem(eventTitle,eventType,eventOrganizer, LocalDate.parse(eventDate), LocalTime.parse(eventTime),eventLocation,eventNotes,eventID));
-                }
-            }
-        });
-        checkIfEventChecked();
+        getExtras(extras);
+        setTextView();
+        setSwitchButton();
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        System.out.println("Map is ready for use.");
         mMap = googleMap;
         regensburg = AppConfig.REGENSBURG;
         mMap.moveCamera(CameraUpdateFactory.newLatLng(regensburg));
         setOwnLocationMarker();
         showLocation();
         drawEventMarker(eventLocation);
+    }
+
+    public void getMapFragment(){
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.event_map);
+        mapFragment.getMapAsync(this);
     }
 
     public void setOwnLocationMarker(){
@@ -162,8 +122,63 @@ public class Event extends FragmentActivity implements OnMapReadyCallback, Navig
         }
     }
 
+    public void initNavigation(){
+        navigationController = new NavigationController(this);
+        navigationController.setNavigationListener(this);
+        navigationController.startNavigation(getApplicationContext());
+    }
+
+    public void setTextView(){
+        date=(TextView) findViewById(R.id.date);
+        time=(TextView) findViewById(R.id.time);
+        location=(TextView) findViewById(R.id.location);
+        fachschaft=(TextView) findViewById(R.id.fachschaft);
+        type=(TextView) findViewById(R.id.eventType);
+        notes=(TextView) findViewById(R.id.notes);
+
+        date.setText(getString(R.string.date)+" "+eventDate);
+        time.setText(getString(R.string.time)+" "+eventTime);
+        location.setText(getString(R.string.location)+" "+eventLocation);
+        fachschaft.setText(getString(R.string.fachschaft)+" "+eventOrganizer);
+        type.setText(getString(R.string.eventType)+" "+eventType);
+        notes.setText(getString(R.string.notes)+" "+eventNotes);
+    }
+
+    public void getExtras(Bundle extras){
+        eventTitle=extras.getString("event_title");
+        eventDate=extras.getString("event_date");
+        eventTime=extras.getString("event_time");
+        eventLocation=extras.getString("event_location");
+        eventOrganizer=extras.getString("event_organizer");
+        eventType=extras.getString("event_type");
+        eventNotes=extras.getString("event_notes");
+        eventID=extras.getInt("event_ID");
+        setTitle(eventTitle);
+    }
+
+    public void setSwitchButton(){
+        switch_teilnehmen=(Switch)findViewById(R.id.switch_teilnehmen);
+        switch_teilnehmen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //ChangeColor
+                if (getCheckedState()){
+                    switch_teilnehmen.getThumbDrawable().setTint(getResources().getColor(R.color._Green));
+                    switch_teilnehmen.getTrackDrawable().setTint(getResources().getColor(R.color._Green));
+                    markedEventsDatabase.insertEventItem(new EventItem(eventTitle,eventType,eventOrganizer, LocalDate.parse(eventDate), LocalTime.parse(eventTime),eventLocation,eventNotes,eventID));
+                }
+                else{
+                    switch_teilnehmen.getThumbDrawable().setTint(getResources().getColor(R.color._Grey));
+                    switch_teilnehmen.getTrackDrawable().setTint(getResources().getColor(R.color._Grey));
+                    markedEventsDatabase.removeEventItem(new EventItem(eventTitle,eventType,eventOrganizer, LocalDate.parse(eventDate), LocalTime.parse(eventTime),eventLocation,eventNotes,eventID));
+                }
+            }
+        });
+        checkIfEventChecked();
+    }
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu){
         navigationMenu.onCreateOptionsMenu(menu);
         return true;
     }
@@ -171,16 +186,6 @@ public class Event extends FragmentActivity implements OnMapReadyCallback, Navig
     public boolean onOptionsItemSelected(MenuItem item){
         navigationMenu.onOptionsItemSelected(item);
         return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
-    }
-    public boolean getCheckedState(){
-        return switch_teilnehmen.isChecked();
     }
 
     private boolean checkIfEventChecked(){
@@ -193,22 +198,32 @@ public class Event extends FragmentActivity implements OnMapReadyCallback, Navig
                 switch_teilnehmen.setChecked(true);
             }
         }
-        System.out.println(switchState);
         return switchState;
     }
 
+    public boolean getCheckedState(){
+        return switch_teilnehmen.isChecked();
+    }
+
     @Override
-    public void onSignalFound() {
+    public void onSignalFound(){
         showLocation();
     }
 
     @Override
-    public void onSignalLost() {
+    public void onSignalLost(){
         //nicht nötig
     }
 
     @Override
-    public void onLocationChanged() {
+    public void onLocationChanged(){
         showLocation();
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 }

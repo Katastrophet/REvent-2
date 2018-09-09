@@ -1,4 +1,4 @@
-package de.ur.mi.revent;
+package de.ur.mi.revent.Template;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import de.ur.mi.revent.R;
 import de.ur.mi.revent.Template.EventItem;
 
 public class _EventItemArrayAdapter extends ArrayAdapter{

@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -16,7 +15,9 @@ import java.util.Collections;
 
 import de.ur.mi.revent.Download.DownloadListener;
 import de.ur.mi.revent.Download.DownloadManager;
+import de.ur.mi.revent.Menu._NavigationMenu;
 import de.ur.mi.revent.Template.EventItem;
+import de.ur.mi.revent.Template._EventItemArrayAdapter;
 
 public class KommendeEvents extends Activity implements DownloadListener{
     private _NavigationMenu navigationMenu;
@@ -29,7 +30,11 @@ public class KommendeEvents extends Activity implements DownloadListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ke);
         navigationMenu=new _NavigationMenu(this);
-        //EventList
+
+        setEventList();
+    }
+
+    private void setEventList(){
         eventList_KE=(ListView)findViewById(R.id.eventList_KE);
         table = new ArrayList<EventItem>();
         getDownloadData();
@@ -44,8 +49,39 @@ public class KommendeEvents extends Activity implements DownloadListener{
                 navigationMenu.showEvent(eventItem.getTitle(),eventItem.getDate().toString(),eventItem.getTime().toString(),eventItem.getLocation(),eventItem.getOrganizer(),eventItem.getType(),eventItem.getNotes(),eventItem.getId());
             }
         });
-        //
     }
+
+    private void getDownloadData(){
+        //Startet den Download und setzt einen Listener an (auch wenn noch laufend),
+        //sofern dieser nicht schon (erfolgreich) beendet wurde.
+        try{
+            switch (DownloadManager.getStatus()){
+                case FINISHED:
+                    table = DownloadManager.getResults();
+                    break;
+                case PENDING:
+                    DownloadManager.startDownload();
+                    DownloadManager.setListener(this);
+                    break;
+                case RUNNING:
+                    DownloadManager.setListener(this);
+                    break;
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDownloadFinished() {
+        try {
+            table = DownloadManager.getResults();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         navigationMenu.onCreateOptionsMenu(menu);
@@ -62,29 +98,5 @@ public class KommendeEvents extends Activity implements DownloadListener{
         super.onBackPressed();
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
-    }
-    @Override
-    public void onDownloadFinished() {
-        try {
-            table = DownloadManager.getResults();
-            printData();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-    private void getDownloadData(){
-        try {
-            if (DownloadManager.getStatus() == AsyncTask.Status.FINISHED) {
-                table = DownloadManager.getResults();
-                printData();
-            } else {
-                DownloadManager.setListener(this);
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-    private void printData(){
-        System.out.println(table.get(2).getOrganizer());
     }
 }

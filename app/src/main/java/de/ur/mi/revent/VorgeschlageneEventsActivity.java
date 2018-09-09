@@ -12,14 +12,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import de.ur.mi.revent.Download.DownloadListener;
 import de.ur.mi.revent.Download.DownloadManager;
+import de.ur.mi.revent.Menu._NavigationMenu;
 import de.ur.mi.revent.Template.EventItem;
+import de.ur.mi.revent.Template._EventItemArrayAdapter;
 
 public class VorgeschlageneEventsActivity extends Activity implements DownloadListener {
     private _NavigationMenu navigationMenu;

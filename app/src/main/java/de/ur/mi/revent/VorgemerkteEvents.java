@@ -11,15 +11,18 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import de.ur.mi.revent.LocalDatabase.LocalDatabase;
+import de.ur.mi.revent.Menu._NavigationMenu;
 import de.ur.mi.revent.Template.EventItem;
+import de.ur.mi.revent.Template._EventItemArrayAdapter;
 
 public class VorgemerkteEvents extends Activity{
-
     private _NavigationMenu navigationMenu;
     private LocalDatabase markedEventsDatabase;
     private ListView eventList_VorgemerkteEvents;
     private ArrayList<EventItem>markedEventsList;
     private _EventItemArrayAdapter aa;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marked_events);
@@ -29,7 +32,6 @@ public class VorgemerkteEvents extends Activity{
         markedEventsList=markedEventsDatabase.getAllEventItems();
 
         aa=new _EventItemArrayAdapter(this,R.layout.event_list_items,markedEventsList);
-        System.out.println("Here");
         eventList_VorgemerkteEvents.setAdapter(aa);
 
         eventList_VorgemerkteEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -40,19 +42,20 @@ public class VorgemerkteEvents extends Activity{
             }
         });
     }
+
     @Override
     public void onRestart(){
         super.onRestart();
         markedEventsList=markedEventsDatabase.getAllEventItems();
-        System.out.println(markedEventsList.size());
         aa.notifyDataSetChanged();
-        System.out.println("onRestart");
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         navigationMenu.onCreateOptionsMenu(menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         navigationMenu.onOptionsItemSelected(item);

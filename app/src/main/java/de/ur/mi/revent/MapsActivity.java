@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import de.ur.mi.revent.AppConfig.AppConfig;
 import de.ur.mi.revent.Download.DownloadListener;
 import de.ur.mi.revent.Download.DownloadManager;
+import de.ur.mi.revent.Menu._NavigationMenu;
 import de.ur.mi.revent.Navigation.NavigationController;
 import de.ur.mi.revent.Navigation.NavigationListener;
 import de.ur.mi.revent.Template.EventItem;

@@ -2,11 +2,13 @@ package de.ur.mi.revent.Download;
 
 import android.os.AsyncTask;
 import java.util.ArrayList;
+
+import de.ur.mi.revent.AppConfig.AppConfig;
 import de.ur.mi.revent.Template.EventItem;
 
 public class DownloadManager {
     private static DataDownload dataDownloader;
-    private final static String ADDRESS = "https://json-server-android-db.herokuapp.com/";
+    private final static String ADDRESS = AppConfig.LINK;
 
     public static void startDownload(){
         dataDownloader = new DataDownload();
@@ -26,7 +28,6 @@ public class DownloadManager {
             return dataDownloader.getStatus();
         } else{
             throw new Exception("download start failed!");
-
         }
     }
 
@@ -37,12 +38,4 @@ public class DownloadManager {
            throw new Exception("download start failed!");
        }
     }
-    public static ArrayList<String> getFachschaftList()throws Exception{
-        if(dataDownloader != null) {
-            return dataDownloader.getFachschaften();
-        } else {
-            throw new Exception("download start failed!");
-        }
-    }
-
 }

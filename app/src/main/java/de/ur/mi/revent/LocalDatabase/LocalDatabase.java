@@ -1,5 +1,5 @@
 
-package de.ur.mi.revent;
+package de.ur.mi.revent.LocalDatabase;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,7 +19,6 @@ import de.ur.mi.revent.Template.EventItem;
 public class LocalDatabase {
     private static final String DATABASE_NAME = "markedEvents.db";
     private static final int DATABASE_VERSION = 4;
-
     private static final String DATABASE_TABLE = "markedEvents";
 
     public static final String KEY_ID="id";
@@ -67,15 +66,11 @@ public class LocalDatabase {
         itemValues.put(KEY_TITLE, item.getTitle());
         itemValues.put(KEY_TYPE, item.getType());
         itemValues.put(KEY_ORGANIZER, item.getOrganizer());
-
         itemValues.put(KEY_DATE, item.getDate().toString());
-
         itemValues.put(KEY_TIME, item.getTime().toString());
         itemValues.put(KEY_LOCATION, item.getLocation());
         itemValues.put(KEY_NOTES, item.getNotes());
         itemValues.put(KEY_ID, item.getId());
-
-
 
         return db.insert(DATABASE_TABLE, null, itemValues);
     }
@@ -101,9 +96,7 @@ public class LocalDatabase {
                 String notes = cursor.getString(COLUMN_NOTES_INDEX);
                 Integer id =cursor.getInt(COLUMN_ID_INDEX);
 
-                System.out.println(title);
                 items.add(new EventItem(title,type,organizer,date,LocalTime.parse(strTime),location,notes,id));
-
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -134,7 +127,6 @@ public class LocalDatabase {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
         }
     }
 

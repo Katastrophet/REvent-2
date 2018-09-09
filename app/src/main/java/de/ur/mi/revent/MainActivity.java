@@ -2,7 +2,6 @@ package de.ur.mi.revent;
 
 import android.app.Activity;
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,9 +17,12 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import de.ur.mi.revent.Download.DownloadListener;
 import de.ur.mi.revent.Download.DownloadManager;
+import de.ur.mi.revent.LocalDatabase.LocalDatabase;
+import de.ur.mi.revent.Menu._NavigationMenu;
 import de.ur.mi.revent.Template.EventItem;
+import de.ur.mi.revent.Template._EventItemArrayAdapter;
 
-public class MainActivity extends Activity implements DownloadListener {
+public class MainActivity extends Activity{
     private _NavigationMenu navigationMenu;
     private static final int PERMISSIONS_REQUEST_CODE = 0;
     private static LocalDatabase markedEventsDatabase;
@@ -57,9 +59,7 @@ public class MainActivity extends Activity implements DownloadListener {
         button_UpcomingEvents=(Button)findViewById(R.id.button_UpcomingEvents);
         button_RecommendedEvents=(Button)findViewById(R.id.button_RecommendedEvents);
 
-
         markedEventsList=markedEventsDatabase.getAllEventItems();
-        System.out.println(markedEventsList);
         aa=new _EventItemArrayAdapter(this,R.layout.event_list_items,markedEventsList);
         eventList_MainMarkedEvents.setAdapter(aa);
         eventList_MainMarkedEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -82,8 +82,8 @@ public class MainActivity extends Activity implements DownloadListener {
                 navigationMenu.showVorgeschlageneEvents();
             }
         });
-
     }
+
     private void initDatabase() {
         markedEventsDatabase = new LocalDatabase(this);
         markedEventsDatabase.open();
@@ -103,10 +103,9 @@ public class MainActivity extends Activity implements DownloadListener {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_CODE: {
-                // If request is cancelled, the result arrays are empty.
+                //Sollte die Berechtigung nicht erteilt werden, so ist der Array leer.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, R.string.permission_granted, Toast.LENGTH_SHORT).show();
-                    init();
                 } else {
                     Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_LONG).show();
                 }
@@ -114,18 +113,14 @@ public class MainActivity extends Activity implements DownloadListener {
         }
     }
 
-    @Override
-    public void onDownloadFinished() {
-
-    }
     public static LocalDatabase getMarkedEventsDatabase(){
         return markedEventsDatabase;
     }
 
     @Override
     public void onBackPressed() {
+        //Bei Betätigen des Backbuttons innerhalb der MainActivity wird die App beendet.
         super.onBackPressed();
         finishAffinity();
-
     }
 }
