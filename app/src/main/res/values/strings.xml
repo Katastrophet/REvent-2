@@ -5,7 +5,7 @@
     <string name="activityVE">Vorgemerkte Events</string>
     <string name="activityE">Event</string>
     <string name="activitySettings">Settings</string>
-    <string name="title_activity_maps">Karte</string>
+    <string name="activityVorgeschlageneEvents">VorgeschlageneEvents</string>
     //Event
     <string name="date">Datum:</string>
     <string name="time">Uhrzeit:</string>
@@ -14,7 +14,10 @@
     <string name="eventType">Eventtyp:</string>
     <string name="notes">Anmerkungen:</string>
     <string name="switch_teilnehmen">Teilnehmen</string>
+    <string name="button_commingEvents">Show comming Events</string>
     //Settings
+    <string name="settings_organizer">Organisatoren</string>
+    <string name="settings_eventTypes">Eventtypen</string>
     <string name="settings_ausflug">Ausflug</string>
     <string name="settings_vortrag">Vortrag</string>
     <string name="settings_party">Party</string>

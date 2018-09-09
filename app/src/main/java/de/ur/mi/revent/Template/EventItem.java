@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class EventItem {
+public class EventItem implements Comparable<EventItem>{
 
     private String title;
     private String type;
