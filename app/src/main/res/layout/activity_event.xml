@@ -38,6 +38,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/switch_teilnehmen"
+            android:textOff="@string/switch_textOff"
+            android:textOn="@string/switch_textOn"
             android:thumbTint="@color/_Grey"
             android:trackTint="@color/_Grey" />
     </LinearLayout>

@@ -18,6 +18,8 @@
     <string name="eventType">Eventtyp:</string>
     <string name="notes">Anmerkungen:</string>
     <string name="switch_teilnehmen">Teilnehmen</string>
+    <string name="switch_textOff">AUS</string>
+    <string name="switch_textOn">EIN</string>
     //Settings
     <string name="settings_organizer">Organisatoren</string>
     <string name="settings_eventTypes">Eventtypen</string>
