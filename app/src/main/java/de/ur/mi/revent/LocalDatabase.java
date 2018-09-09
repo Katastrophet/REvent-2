@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 
 import de.ur.mi.revent.Template.EventItem;
@@ -96,6 +98,7 @@ public class LocalDatabase {
             } while (cursor.moveToNext());
         }
         cursor.close();
+        Collections.sort(items);
         return items;
     }
 

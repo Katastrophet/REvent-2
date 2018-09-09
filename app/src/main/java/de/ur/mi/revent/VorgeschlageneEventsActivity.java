@@ -13,6 +13,8 @@ import android.widget.ListView;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import de.ur.mi.revent.Download.DownloadListener;
 import de.ur.mi.revent.Download.DownloadManager;
@@ -99,5 +101,6 @@ public class VorgeschlageneEventsActivity extends Activity implements DownloadLi
                     }break;
             }
         }
+        Collections.sort(tableVorgeschlageneEvents);
     }
 }

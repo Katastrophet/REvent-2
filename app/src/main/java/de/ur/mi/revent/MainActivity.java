@@ -32,6 +32,7 @@ public class MainActivity extends Activity implements DownloadListener {
     @Override
     //  TODO: Sort List
     //  TODO: Show Map in Event
+    //  TODO: Settings
     //  TODO: Show Distance in ?(Event)
     //  TODO: Layout
     //  TODO: Menu sidemenu

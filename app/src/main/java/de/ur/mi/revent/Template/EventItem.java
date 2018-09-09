@@ -5,7 +5,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class EventItem {
+public class EventItem implements Comparable<EventItem>{
 
     private String title;
     private String type;
@@ -50,6 +50,12 @@ public class EventItem {
         return 0;
     }
 
-
+    public int compareTo(EventItem eventItem){
+        int compResult=date.compareTo(eventItem.getDate());
+        if (compResult==0){
+            compResult=time.compareTo(eventItem.getTime());
+        }
+        return compResult;
+    }
 }
 
