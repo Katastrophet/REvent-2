@@ -8,22 +8,29 @@
 
     <ListView
         android:id="@+id/eventList_mainMarkedEvents"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        >
     </ListView>
     <Button
         android:id="@+id/button_UpcomingEvents"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/activityKE"
         android:visibility="visible"
-        tools:text="SUO" />
+        tools:text="SUO"
+        android:layout_marginBottom="5sp"
+        android:layout_marginTop="5sp"/>
 
     <Button
         android:id="@+id/button_RecommendedEvents"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/activityVorgeschlageneEvents" />
+        android:text="@string/activityVorgeschlageneEvents"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10sp"
+        android:layout_marginTop="5sp"/>
 
 
 </LinearLayout>
