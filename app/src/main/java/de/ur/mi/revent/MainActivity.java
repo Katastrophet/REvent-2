@@ -30,9 +30,9 @@ public class MainActivity extends Activity implements DownloadListener {
     private Button button_RecommendedEvents;
 
     @Override
-    //  TODO: Sort List
     //  TODO: Show Map in Event
     //  TODO: Settings
+    //  TODO: Notes
     //  TODO: Show Distance in ?(Event)
     //  TODO: Layout
     //  TODO: Menu sidemenu
