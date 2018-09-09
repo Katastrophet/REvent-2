@@ -9,10 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import de.ur.mi.revent.Download.DownloadListener;
@@ -20,31 +16,15 @@ import de.ur.mi.revent.Download.DownloadManager;
 import de.ur.mi.revent.Template.EventItem;
 
 public class MainActivity extends Activity implements DownloadListener {
+    private ArrayList<EventItem> table = new ArrayList<EventItem>();
+    private final static String ADDRESS = "https://json-server-android-db.herokuapp.com/events";
     private _NavigationMenu navigationMenu;
     private static final int PERMISSIONS_REQUEST_CODE = 0;
-    private static LocalDatabase markedEventsDatabase;
-    private ListView eventList_MainMarkedEvents;
-    private ArrayList<EventItem>markedEventsList;
-    private _EventItemArrayAdapter aa;
-    private Button button_UpcomingEvents;
-    private Button button_RecommendedEvents;
 
     @Override
-<<<<<<< HEAD
     //  TODO: Sort List
-=======
->>>>>>> dev-peters
     //  TODO: Show Map in Event
-    //  TODO: Settings
-    //  TODO: Notes
     //  TODO: Show Distance in ?(Event)
-<<<<<<< HEAD
-=======
-    //  TODO: Layout
-    //  TODO: Menu sidemenu
-    //  TODO: Docu
-    //  TODO: Cleanup
->>>>>>> dev-peters
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -58,7 +38,6 @@ public class MainActivity extends Activity implements DownloadListener {
     }
 
     private void init() {
-        initDatabase();
         initUI();
         DownloadManager.startDownload();
     }
@@ -71,46 +50,8 @@ public class MainActivity extends Activity implements DownloadListener {
 
 
     private void initUI(){
-
         setContentView(R.layout.activity_main);
         navigationMenu=new _NavigationMenu(this);
-<<<<<<< HEAD
-=======
-        eventList_MainMarkedEvents=(ListView)findViewById(R.id.eventList_mainMarkedEvents);
-        button_UpcomingEvents=(Button)findViewById(R.id.button_UpcomingEvents);
-        button_RecommendedEvents=(Button)findViewById(R.id.button_RecommendedEvents);
-
-
-        markedEventsList=markedEventsDatabase.getAllEventItems();
-        System.out.println(markedEventsList);
-        aa=new _EventItemArrayAdapter(this,R.layout.event_list_items,markedEventsList);
-        eventList_MainMarkedEvents.setAdapter(aa);
-        eventList_MainMarkedEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                EventItem eventItem =(EventItem) eventList_MainMarkedEvents.getItemAtPosition(i);
-               navigationMenu.showEvent(eventItem.getTitle(),eventItem.getDate().toString(),eventItem.getTime().toString(),eventItem.getLocation(),eventItem.getOrganizer(),eventItem.getType());
-           }
-        });
-
-        button_UpcomingEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navigationMenu.showKommendeEvents();
-            }
-        });
-        button_RecommendedEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navigationMenu.showVorgeschlageneEvents();
-            }
-        });
-
-    }
-    private void initDatabase() {
-        markedEventsDatabase = new LocalDatabase(this);
-        markedEventsDatabase.open();
->>>>>>> dev-peters
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -142,8 +83,5 @@ public class MainActivity extends Activity implements DownloadListener {
     @Override
     public void onDownloadFinished() {
 
-    }
-    public static LocalDatabase getMarkedEventsDatabase(){
-        return markedEventsDatabase;
     }
 }

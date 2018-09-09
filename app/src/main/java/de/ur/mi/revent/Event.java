@@ -9,12 +9,6 @@ import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-
-import de.ur.mi.revent.Template.EventItem;
-
 public class Event extends Activity{
     private _NavigationMenu navigationMenu;
     private TextView date;
@@ -24,15 +18,6 @@ public class Event extends Activity{
     private TextView type;
     private TextView notes;
     private Switch switch_teilnehmen;
-    //!
-    private LocalDatabase markedEventsDatabase;
-    //!
-    private String eventTitle;
-    private String eventDate;
-    private String eventTime;
-    private String eventLocation;
-    private String eventOrganizer;
-    private String eventType;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -40,18 +25,13 @@ public class Event extends Activity{
         navigationMenu=new _NavigationMenu(this);
         Intent i=getIntent();
         Bundle extras=i.getExtras();
-        //!
-        markedEventsDatabase = MainActivity.getMarkedEventsDatabase();
-
-        //!
-         eventTitle=extras.getString("event_title");
-         eventDate=extras.getString("event_date");
-         eventTime=extras.getString("event_time");
-         eventLocation=extras.getString("event_location");
-         eventOrganizer=extras.getString("event_organizer");
-         eventType=extras.getString("event_type");
+        String eventTitle=extras.getString("event_title");
+        String eventDate=extras.getString("event_date");
+        String eventTime=extras.getString("event_time");
+        String eventLocation=extras.getString("event_location");
+        String eventOrganizer=extras.getString("event_organizer");
+        String eventType=extras.getString("event_type");
         setTitle(eventTitle);
-
 
         date=(TextView) findViewById(R.id.date);
         time=(TextView) findViewById(R.id.time);
@@ -74,24 +54,14 @@ public class Event extends Activity{
                 if (getCheckedState()){
                     switch_teilnehmen.getThumbDrawable().setTint(getResources().getColor(R.color._Green));
                     switch_teilnehmen.getTrackDrawable().setTint(getResources().getColor(R.color._Green));
-                    markedEventsDatabase.insertEventItem(new EventItem(eventTitle,eventType,eventOrganizer, LocalDate.parse(eventDate), LocalTime.parse(eventTime),eventLocation));
-
-                    ArrayList stuff=markedEventsDatabase.getAllEventItems();
-                    System.out.println(stuff.size());
                 }
                 else{
                     switch_teilnehmen.getThumbDrawable().setTint(getResources().getColor(R.color._Grey));
                     switch_teilnehmen.getTrackDrawable().setTint(getResources().getColor(R.color._Grey));
-                    markedEventsDatabase.removeEventItem(new EventItem(eventTitle,eventType,eventOrganizer, LocalDate.parse(eventDate), LocalTime.parse(eventTime),eventLocation));
-
-
-                    ArrayList stuff=markedEventsDatabase.getAllEventItems();
-                    System.out.println(stuff.size());
                 }
+                //Add/DeleteLocalLibrary
             }
         });
-        checkIfEventChecked();
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -113,19 +83,4 @@ public class Event extends Activity{
     public boolean getCheckedState(){
         return switch_teilnehmen.isChecked();
     }
-    private boolean checkIfEventChecked(){
-        boolean switchState=false;
-        for (int i=0;i<markedEventsDatabase.getAllEventItems().size();i++){
-            if (markedEventsDatabase.getAllEventItems().get(i).getTitle().equals(eventTitle)) {
-                switchState = true;
-                switch_teilnehmen.getThumbDrawable().setTint(getResources().getColor(R.color._Green));
-                switch_teilnehmen.getTrackDrawable().setTint(getResources().getColor(R.color._Green));
-                switch_teilnehmen.setChecked(true);
-            }
-        }
-        System.out.println(switchState);
-        return switchState;
-    }
-
-
 }

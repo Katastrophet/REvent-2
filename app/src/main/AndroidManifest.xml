@@ -59,11 +59,6 @@
             android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
             android:label="@string/activitySettings">
         </activity>
-        <activity
-            android:name=".VorgeschlageneEventsActivity"
-            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
-            android:label="@string/activityVorgeschlageneEvents">
-        </activity>
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
