@@ -95,12 +95,12 @@ public class Event extends FragmentActivity implements OnMapReadyCallback, Navig
         notes=(TextView) findViewById(R.id.notes);
         switch_teilnehmen=(Switch)findViewById(R.id.switch_teilnehmen);
 
-        date.setText(getString(R.string.date)+eventDate);
-        time.setText(getString(R.string.time)+eventTime);
-        location.setText(getString(R.string.location)+eventLocation);
-        fachschaft.setText(getString(R.string.fachschaft)+eventOrganizer);
-        type.setText(getString(R.string.eventType)+eventType);
-        notes.setText(getString(R.string.notes));
+        date.setText(getString(R.string.date)+" "+eventDate);
+        time.setText(getString(R.string.time)+" "+eventTime);
+        location.setText(getString(R.string.location)+" "+eventLocation);
+        fachschaft.setText(getString(R.string.fachschaft)+" "+eventOrganizer);
+        type.setText(getString(R.string.eventType)+" "+eventType);
+        notes.setText(getString(R.string.notes)+" "+eventNotes);
         switch_teilnehmen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
