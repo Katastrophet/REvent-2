@@ -2,7 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:weightSum="100"
     android:orientation="vertical">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="60">-->
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
@@ -34,5 +40,15 @@
             android:text="@string/switch_teilnehmen"
             android:thumbTint="@color/_Grey"
             android:trackTint="@color/_Grey" />
-
+    </LinearLayout>
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/event_map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            map:cameraZoom="12"
+            android:layout_weight="40"
+            tools:context=".Event" />
 </LinearLayout>
