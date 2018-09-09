@@ -31,7 +31,6 @@ public class LocalDatabase {
     public static final String KEY_LOCATION = "location";
     public static final String KEY_NOTES="notes";
 
-
     public static final int COLUMN_TITLE_INDEX = 0;
     public static final int COLUMN_TYPE_INDEX = 1;
     public static final int COLUMN_ORGANIZER_INDEX = 2;

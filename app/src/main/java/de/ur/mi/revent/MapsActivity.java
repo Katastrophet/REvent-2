@@ -28,20 +28,18 @@ import de.ur.mi.revent.Navigation.NavigationListener;
 import de.ur.mi.revent.Template.EventItem;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DownloadListener, NavigationListener, InternetConnectivityListener, GoogleMap.OnInfoWindowClickListener {
-    private ArrayList<EventItem> table;
+    private NavigationController navigationController;
+    private InternetAvailabilityChecker mInternetAvailabilityChecker;
     private GoogleMap mMap;
     private String strAddress;
     private EventItem associatedEvent;
+    private ArrayList<EventItem> table;
     private ArrayList<MarkerOptions> eventMarkerOptions;
     private ArrayList<Integer> idList;
     private MarkerOptions ownLocationMarkerOptions;
     private Marker ownLocationMarker;
-    private NavigationController navigationController;
-    private LatLng lastKnownLocation;
-    private LatLng regensburg;
-    private boolean failed;
-
-    private InternetAvailabilityChecker mInternetAvailabilityChecker;
+    private LatLng lastKnownLocation, regensburg;
+    private boolean downloadFailed;
 
     private _NavigationMenu navigationMenu;
 
@@ -50,9 +48,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         navigationMenu=new _NavigationMenu(this);
-        failed = false;
+        downloadFailed = false;
 
         Toast.makeText(this, R.string.map_loading, Toast.LENGTH_SHORT).show();
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -73,16 +72,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        regensburg = new LatLng(49.01, 12.1);
+        regensburg = AppConfig.REGENSBURG;
         setOwnLocationMarker();
-        //Bewege Kamera nach Regensburg - TODO: Koordinate auslagern
         drawEventMarkers();
         mMap.moveCamera(CameraUpdateFactory.newLatLng(regensburg));
         mMap.setOnInfoWindowClickListener(this);
     }
 
     public void setOwnLocationMarker(){
-        //Finde und zeige die zuletzt gefundene Position des Nutzers
+        //Finde und zeige die zuletzt gefundene Position des Nutzers.
+        //Setzt zudem einmalig die Optionen.
         lastKnownLocation = navigationController.getLastKnownLocation();
         ownLocationMarkerOptions = new MarkerOptions()
                 .position(lastKnownLocation)
@@ -94,6 +93,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void showLocation(){
+        //Zeigt eigene Position (nachdem diese bereits vorher schon einmal ermittel wurde).
         lastKnownLocation = navigationController.getLastKnownLocation();
         ownLocationMarker.setPosition(lastKnownLocation);
     }
@@ -138,6 +138,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onInfoWindowClick(Marker marker) {
+        //Nach dem ersten Klick auf einen Marker, öffnet sich über diesem ein Infofenster.
+        //Dieses führt bei einem weiteren Klick zur detaillierteren Eventansicht.
         if(marker.getTag().toString().equals(AppConfig.OWN_POSITION)) {
             return;
         } else {
@@ -150,6 +152,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public EventItem filterId(ArrayList<EventItem> table, int id) {
+        //Suche nach dem Event mit der gegebenen ID.
         associatedEvent = null;
         EventItem result = null;
         for(int k = 0; k<table.size(); k++) {
@@ -161,11 +164,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void getDownloadData(){
+        //Startet den Download und setzt einen Listener an (auch wenn noch laufend),
+        //sofern dieser nicht schon erfolgreich beendet wurde.
         try{
             switch (DownloadManager.getStatus()){
                 case FINISHED:
                     table = DownloadManager.getResults();
-                    if(table.isEmpty() && failed){
+                    if(table.isEmpty() && downloadFailed){
                         DownloadManager.startDownload();
                         DownloadManager.setListener(this);
                     }
@@ -234,8 +239,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
            if (isConnected && table.isEmpty()) {
                //(Wieder) Internetverbindung vorhanden, aber table wurde noch nicht befüllt.
                Toast.makeText(this, R.string.connection_success, Toast.LENGTH_SHORT).show();
-               failed = true;
-               //der Boolean 'failed' deutet daraufhin dass fehlerhaft beendet wurde (da keine Internetverbindung),
+               downloadFailed = true;
+               //der Boolean 'downloadFailed' deutet daraufhin dass fehlerhaft beendet wurde (da keine Internetverbindung),
                // sofern man anschließend in getDownloadData case 'FINISHED' landet.
                getDownloadData();
                drawEventMarkers();

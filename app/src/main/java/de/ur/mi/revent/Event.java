@@ -1,6 +1,5 @@
 package de.ur.mi.revent;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -135,16 +134,11 @@ public class Event extends FragmentActivity implements OnMapReadyCallback, Navig
     public void onMapReady(GoogleMap googleMap) {
         System.out.println("Map is ready for use.");
         mMap = googleMap;
-        regensburg = new LatLng(49.01, 12.1);
-        //Bewege Kamera nach Regensburg - TODO: Koordinate auslagern
+        regensburg = AppConfig.REGENSBURG;
         mMap.moveCamera(CameraUpdateFactory.newLatLng(regensburg));
         setOwnLocationMarker();
         showLocation();
         drawEventMarker(eventLocation);
-        /*
-        showLocation();
-        drawEventMarker(eventLocation);
-        */
     }
 
     public void setOwnLocationMarker(){
@@ -177,7 +171,6 @@ public class Event extends FragmentActivity implements OnMapReadyCallback, Navig
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         navigationMenu.onCreateOptionsMenu(menu);
@@ -198,7 +191,6 @@ public class Event extends FragmentActivity implements OnMapReadyCallback, Navig
     public boolean getCheckedState(){
         return switch_teilnehmen.isChecked();
     }
-
 
     private boolean checkIfEventChecked(){
         boolean switchState=false;
@@ -221,11 +213,11 @@ public class Event extends FragmentActivity implements OnMapReadyCallback, Navig
 
     @Override
     public void onSignalLost() {
-
+        //nicht nötig
     }
 
     @Override
     public void onLocationChanged() {
-
+        showLocation();
     }
 }
