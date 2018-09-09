@@ -31,4 +31,8 @@
     <string name="own_location">Deine Position</string>
     <string name="meter">m</string>
     <string name="gps_deactivated">GPS muss aktiviert sein um den eigenen Standort einsehen zu können.</string>
+
+    <string name="permission_granted">Berechtigung erhalten.</string>
+    <string name="permission_denied">Berechtigung nicht erhalten.</string>
+    <string name="map_loading">Karte wird geladen.</string>
 </resources>
