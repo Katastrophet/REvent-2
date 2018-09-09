@@ -1,6 +1,7 @@
 package de.ur.mi.revent;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -65,6 +66,14 @@ public class VorgeschlageneEventsActivity extends Activity implements DownloadLi
         navigationMenu.onOptionsItemSelected(item);
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+    }
+
     @Override
     public void onDownloadFinished() {
         try {

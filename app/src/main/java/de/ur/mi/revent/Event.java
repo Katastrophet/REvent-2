@@ -27,9 +27,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+import de.ur.mi.revent.Navigation.NavigationListener;
 import de.ur.mi.revent.Template.EventItem;
 
-public class Event extends Activity{
+public class Event extends FragmentActivity implements OnMapReadyCallback, NavigationListener{
     private _NavigationMenu navigationMenu;
     private TextView date;
     private TextView time;
@@ -62,6 +63,13 @@ public class Event extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.event_map);
+        mapFragment.getMapAsync(this);
+
+        navigationController = new NavigationController(this);
+        navigationController.setNavigationListener(this);
+        navigationController.startNavigation(getApplicationContext());
 
         navigationMenu=new _NavigationMenu(this);
         Intent i=getIntent();
@@ -113,7 +121,6 @@ public class Event extends Activity{
 
 
                     ArrayList stuff=markedEventsDatabase.getAllEventItems();
-                    System.out.println(stuff.size());
                 }
                 //Add/DeleteLocalLibrary
             }
@@ -121,8 +128,56 @@ public class Event extends Activity{
 
 
         checkIfEventChecked();
-
     }
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        System.out.println("Map is ready for use.");
+        mMap = googleMap;
+        regensburg = new LatLng(49.01, 12.1);
+        //Bewege Kamera nach Regensburg - TODO: Koordinate auslagern
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(regensburg));
+        setOwnLocationMarker();
+        showLocation();
+        drawEventMarker(eventLocation);
+        /*
+        showLocation();
+        drawEventMarker(eventLocation);
+        */
+    }
+
+    public void setOwnLocationMarker(){
+        //Finde und zeige die zuletzt gefundene Position des Nutzers
+        lastKnownLocation = navigationController.getLastKnownLocation();
+        ownLocationMarkerOptions = new MarkerOptions()
+                .position(lastKnownLocation)
+                .title(getString(R.string.own_location))
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                .zIndex(1.0f);
+        ownLocationMarker = mMap.addMarker(ownLocationMarkerOptions);
+        ownLocationMarker.setTag(AppConfig.OWN_POSITION);
+    }
+
+    public void showLocation(){
+        lastKnownLocation = navigationController.getLastKnownLocation();
+        ownLocationMarker.setPosition(lastKnownLocation);
+    }
+
+    public void drawEventMarker(String address){
+        LatLng pos = navigationController.getLocationFromAddress(address, this);
+        if(pos!=null) {
+            float[] distance = navigationController.getEstimatedDistanceForLocation(pos);
+            String distanceString = String.valueOf(Math.round(distance[0]));
+            MarkerOptions eventMarkerOptions = new MarkerOptions()
+                    .position(pos)
+                    .title(eventTitle)
+                    .snippet(distanceString + getString(R.string.meter));
+            mMap.addMarker(eventMarkerOptions);
+        }
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         navigationMenu.onCreateOptionsMenu(menu);
@@ -157,5 +212,20 @@ public class Event extends Activity{
         }
         System.out.println(switchState);
         return switchState;
+    }
+
+    @Override
+    public void onSignalFound() {
+        showLocation();
+    }
+
+    @Override
+    public void onSignalLost() {
+
+    }
+
+    @Override
+    public void onLocationChanged() {
+
     }
 }

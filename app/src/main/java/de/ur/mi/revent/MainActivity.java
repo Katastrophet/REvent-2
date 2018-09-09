@@ -2,6 +2,7 @@ package de.ur.mi.revent;
 
 import android.app.Activity;
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -34,7 +35,6 @@ public class MainActivity extends Activity implements DownloadListener {
     //  TODO: Show Map in Event
     //  TODO: Settings
     //  TODO: Notes
-    //  TODO: Show Distance in ?(Event)
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,10 +119,12 @@ public class MainActivity extends Activity implements DownloadListener {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Berechtigung erhalten.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.permission_granted, Toast.LENGTH_SHORT).show();
                     init();
                     //
                 } else {
                     Toast.makeText(this, "Berechtigung nicht erhalten.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -135,5 +137,13 @@ public class MainActivity extends Activity implements DownloadListener {
     }
     public static LocalDatabase getMarkedEventsDatabase(){
         return markedEventsDatabase;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+
     }
 }
