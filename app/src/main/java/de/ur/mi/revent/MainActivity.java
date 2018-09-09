@@ -9,6 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import de.ur.mi.revent.Download.DownloadListener;
@@ -18,15 +22,17 @@ import de.ur.mi.revent.Template.EventItem;
 public class MainActivity extends Activity implements DownloadListener {
     private _NavigationMenu navigationMenu;
     private static final int PERMISSIONS_REQUEST_CODE = 0;
-
     private static LocalDatabase markedEventsDatabase;
+    private ListView eventList_MainMarkedEvents;
+    private ArrayList<EventItem>markedEventsList;
+    private _EventItemArrayAdapter aa;
+    private Button button_UpcomingEvents;
+    private Button button_RecommendedEvents;
 
     @Override
     //  TODO: Sort List
     //  TODO: Show Map in Event
     //  TODO: Show Distance in ?(Event)
-    //  TODO: Database + VorgemerkteEvents
-    //  TODO: Event teilnehme Button +Database
     //  TODO: Layout
     //  TODO: Menu sidemenu
     //  TODO: Docu
@@ -48,9 +54,39 @@ public class MainActivity extends Activity implements DownloadListener {
     }
 
     private void initUI(){
+
         setContentView(R.layout.activity_main);
         navigationMenu=new _NavigationMenu(this);
-        System.out.println("Hello MainActivity");
+        eventList_MainMarkedEvents=(ListView)findViewById(R.id.eventList_mainMarkedEvents);
+        button_UpcomingEvents=(Button)findViewById(R.id.button_UpcomingEvents);
+        button_RecommendedEvents=(Button)findViewById(R.id.button_RecommendedEvents);
+
+
+        markedEventsList=markedEventsDatabase.getAllEventItems();
+        System.out.println(markedEventsList);
+        aa=new _EventItemArrayAdapter(this,R.layout.event_list_items,markedEventsList);
+        eventList_MainMarkedEvents.setAdapter(aa);
+        eventList_MainMarkedEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                EventItem eventItem =(EventItem) eventList_MainMarkedEvents.getItemAtPosition(i);
+               navigationMenu.showEvent(eventItem.getTitle(),eventItem.getDate().toString(),eventItem.getTime().toString(),eventItem.getLocation(),eventItem.getOrganizer(),eventItem.getType());
+           }
+        });
+
+        button_UpcomingEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigationMenu.showKommendeEvents();
+            }
+        });
+        button_RecommendedEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigationMenu.showVorgeschlageneEvents();
+            }
+        });
+
     }
     private void initDatabase() {
         markedEventsDatabase = new LocalDatabase(this);

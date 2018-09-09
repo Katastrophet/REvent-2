@@ -57,7 +57,6 @@ public class LocalDatabase {
     }
 
     public long insertEventItem(EventItem item) {
-
         ContentValues itemValues = new ContentValues();
         itemValues.put(KEY_TITLE, item.getTitle());
         itemValues.put(KEY_TYPE, item.getType());
@@ -79,7 +78,6 @@ public class LocalDatabase {
     }
 
     public ArrayList<EventItem> getAllEventItems() {
-
         ArrayList<EventItem> items = new ArrayList<EventItem>();
         Cursor cursor = db.query(DATABASE_TABLE, new String[] { KEY_ID,KEY_TITLE,KEY_TYPE,KEY_ORGANIZER,KEY_DATE,KEY_TIME,KEY_LOCATION}, null, null, null, null, null);
         if (cursor.moveToFirst()) {
@@ -97,6 +95,7 @@ public class LocalDatabase {
 
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return items;
     }
 
