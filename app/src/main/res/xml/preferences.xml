@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference
-        android:key="pref_ausflug"
-        android:title="@string/settings_ausflug"
-        android:defaultValue="true"/>
-    <CheckBoxPreference
-        android:key="pref_vortrag"
-        android:title="@string/settings_vortrag"
-        android:defaultValue="true"/>
-    <CheckBoxPreference
-        android:key="pref_sync2"
-        android:title="@string/settings_party"
-        android:defaultValue="true"/>
+    <PreferenceCategory
+        android:title="@string/settings_eventTypes"
+        android:key="pref_type">
+        <CheckBoxPreference
+            android:key="pref_ausflug"
+            android:title="@string/settings_ausflug"
+            android:defaultValue="true"/>
+        <CheckBoxPreference
+            android:key="pref_vortrag"
+            android:title="@string/settings_vortrag"
+            android:defaultValue="true"/>
+        <CheckBoxPreference
+            android:key="pref_party"
+            android:title="@string/settings_party"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/settings_organizer"
+        android:key="pref_organizer">
+    </PreferenceCategory>
+
 </PreferenceScreen>
