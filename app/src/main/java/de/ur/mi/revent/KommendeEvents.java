@@ -36,7 +36,6 @@ public class KommendeEvents extends Activity implements DownloadListener{
         Collections.sort(table);
         aa=new _EventItemArrayAdapter(this,R.layout.event_list_items,table);
         eventList_KE.setAdapter(aa);
-        //aa.notifyDataSetChanged();
 
         eventList_KE.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

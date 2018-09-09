@@ -109,23 +109,14 @@ public class Event extends FragmentActivity implements OnMapReadyCallback, Navig
                     switch_teilnehmen.getThumbDrawable().setTint(getResources().getColor(R.color._Green));
                     switch_teilnehmen.getTrackDrawable().setTint(getResources().getColor(R.color._Green));
                     markedEventsDatabase.insertEventItem(new EventItem(eventTitle,eventType,eventOrganizer, LocalDate.parse(eventDate), LocalTime.parse(eventTime),eventLocation,eventNotes,eventID));
-
-                    ArrayList stuff=markedEventsDatabase.getAllEventItems();
-                    System.out.println(stuff.size());
                 }
                 else{
                     switch_teilnehmen.getThumbDrawable().setTint(getResources().getColor(R.color._Grey));
                     switch_teilnehmen.getTrackDrawable().setTint(getResources().getColor(R.color._Grey));
                     markedEventsDatabase.removeEventItem(new EventItem(eventTitle,eventType,eventOrganizer, LocalDate.parse(eventDate), LocalTime.parse(eventTime),eventLocation,eventNotes,eventID));
-
-
-                    ArrayList stuff=markedEventsDatabase.getAllEventItems();
                 }
-                //Add/DeleteLocalLibrary
             }
         });
-
-
         checkIfEventChecked();
     }
 

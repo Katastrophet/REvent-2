@@ -31,13 +31,7 @@ public class MainActivity extends Activity implements DownloadListener {
     private Button button_RecommendedEvents;
 
     @Override
-
-
-    //  TODO: Show Map in Event
-    //  TODO: Sort List
-    //  TODO: Settings
-    //  TODO: Notes
-
+    
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
