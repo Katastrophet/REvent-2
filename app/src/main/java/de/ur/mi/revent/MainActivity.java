@@ -30,6 +30,7 @@ public class MainActivity extends Activity implements DownloadListener {
     private Button button_RecommendedEvents;
 
     @Override
+    //  TODO: Sort List
     //  TODO: Show Map in Event
     //  TODO: Settings
     //  TODO: Notes
@@ -42,8 +43,10 @@ public class MainActivity extends Activity implements DownloadListener {
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
+            init();
         } else {
             init();
+            getLocationData();
         }
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
@@ -54,8 +57,14 @@ public class MainActivity extends Activity implements DownloadListener {
         DownloadManager.startDownload();
     }
 
-    private void initUI(){
+    public void getLocationData(){
+        //Erst hier ist bekannt ob Genehmigung erhalten.
+        //initUI und init dürfen noch nicht auf GPS-Daten wie den Abstand zugreifen.
+    }
 
+
+
+    private void initUI(){
         setContentView(R.layout.activity_main);
         navigationMenu=new _NavigationMenu(this);
         eventList_MainMarkedEvents=(ListView)findViewById(R.id.eventList_mainMarkedEvents);

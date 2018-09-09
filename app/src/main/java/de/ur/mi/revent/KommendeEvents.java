@@ -11,8 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 import de.ur.mi.revent.Download.DownloadListener;
 import de.ur.mi.revent.Download.DownloadManager;
@@ -33,7 +31,6 @@ public class KommendeEvents extends Activity implements DownloadListener{
         eventList_KE=(ListView)findViewById(R.id.eventList_KE);
         table = new ArrayList<EventItem>();
         getDownloadData();
-        Collections.sort(table);
         aa=new _EventItemArrayAdapter(this,R.layout.event_list_items,table);
         eventList_KE.setAdapter(aa);
         //aa.notifyDataSetChanged();

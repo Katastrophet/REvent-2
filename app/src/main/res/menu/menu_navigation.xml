@@ -20,8 +20,4 @@
         android:id="@+id/menu_Settings"
         android:title="@string/activitySettings">
     </item>
-    <item
-        android:id="@+id/menu_VorgeschlageneEvents"
-        android:title="@string/activityVorgeschlageneEvents">
-    </item>
 </menu>

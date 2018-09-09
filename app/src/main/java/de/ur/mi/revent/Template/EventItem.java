@@ -5,7 +5,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class EventItem implements Comparable<EventItem>{
+public class EventItem {
 
     private String title;
     private String type;
@@ -14,14 +14,18 @@ public class EventItem implements Comparable<EventItem>{
     private LocalTime time;
     private String location;
     private int distance;
+    private String notes;
+    private int id;
 
-    public EventItem(String title, String type, String organizer, LocalDate date, LocalTime time, String location) {
+    public EventItem(String title, String type, String organizer, LocalDate date, LocalTime time, String location, String notes, int id) {
         this.title = title;
         this.type = type;
         this.organizer = organizer;
         this.date = date;
         this.time = time;
         this.location = location;
+        this.notes = notes;
+        this.id = id;
 
     }
 
@@ -43,8 +47,10 @@ public class EventItem implements Comparable<EventItem>{
 
     public String getLocation() { return location; }
 
-    public int getDistance() {return distance;}
 
+    public String getNotes() { return notes; }
+
+    public int getId() { return id;}
     public int setDistance(int distance) {
         this.distance = distance;
         return 0;
