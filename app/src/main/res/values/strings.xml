@@ -24,6 +24,30 @@
     <string name="settings_ausflug">Ausflug</string>
     <string name="settings_vortrag">Vortrag</string>
     <string name="settings_party">Party</string>
+        //Fachschaften
+    <string name="settingsFA_bio">Fachschaft Biologie</string>
+    <string name="settingsFA_chem">Fachschaft Chemie</string>
+    <string name="settingsFA_ges">Fachschaft Geschichte</string>
+    <string name="settingsFA_hum">Fachschaft Humanmedizin</string>
+    <string name="settingsFA_jura">Fachschaft Jura</string>
+    <string name="settingsFA_Kath">Fachschaft Katholische Theologie</string>
+    <string name="settingsFA_Lehr">Fachschaft Lehramt</string>
+    <string name="settingsFA_Math">Fachschaft Mathe/Physik</string>
+    <string name="settingsFA_Phy">Fachschaft Physik</string>
+    <string name="settingsFA_Phar">Fachschaft Pharmazie</string>
+    <string name="settingsFA_Phil">Fachschaft Philosophie</string>
+    <string name="settingsFA_Poli">Fachschaft Politikwissenschaften</string>
+    <string name="settingsFA_Päd">Fachschaft Pädagogik</string>
+    <string name="settingsFA_Psy">Fachschaft Psychologie</string>
+    <string name="settingsFA_Rom">Fachschaft Romanistik</string>
+    <string name="settingsFA_Slav">Fachschaft Slavistik</string>
+    <string name="settingsFA_Spo">Fachschaft Sport</string>
+    <string name="settingsFA_SLK">Fachschaft SLK</string>
+    <string name="settingsFA_Süd">Fachschaft SüdOst</string>
+    <string name="settingsFA_Wirt">Fachschaft Wirtschaft</string>
+    <string name="settingsFA_Zahn">Fachschaft Zahnmedizin</string>
+
+
     //Karte
     <string name="connection_failure">REvent benötigt eine aktive Internetverbindung um richtig zu funktionieren!</string>
     <string name="connection_success">aktive Internetverbindung gefunden!</string>

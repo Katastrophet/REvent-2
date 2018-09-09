@@ -37,5 +37,12 @@ public class DownloadManager {
            throw new Exception("download start failed!");
        }
     }
+    public static ArrayList<String> getFachschaftList()throws Exception{
+        if(dataDownloader != null) {
+            return dataDownloader.getFachschaften();
+        } else {
+            throw new Exception("download start failed!");
+        }
+    }
 
 }
