@@ -16,17 +16,21 @@ import de.ur.mi.revent.Download.DownloadManager;
 import de.ur.mi.revent.Template.EventItem;
 
 public class MainActivity extends Activity implements DownloadListener {
-    private ArrayList<EventItem> table = new ArrayList<EventItem>();
-    private final static String ADDRESS = "https://json-server-android-db.herokuapp.com/events";
     private _NavigationMenu navigationMenu;
     private static final int PERMISSIONS_REQUEST_CODE = 0;
 
+    private static LocalDatabase markedEventsDatabase;
+
     @Override
-    //  TODO: Handle removal/denial of permission
     //  TODO: Sort List
     //  TODO: Show Map in Event
     //  TODO: Show Distance in ?(Event)
-    //  TODO:
+    //  TODO: Database + VorgemerkteEvents
+    //  TODO: Event teilnehme Button +Database
+    //  TODO: Layout
+    //  TODO: Menu sidemenu
+    //  TODO: Docu
+    //  TODO: Cleanup
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -38,6 +42,7 @@ public class MainActivity extends Activity implements DownloadListener {
     }
 
     private void init() {
+        initDatabase();
         initUI();
         DownloadManager.startDownload();
     }
@@ -46,6 +51,10 @@ public class MainActivity extends Activity implements DownloadListener {
         setContentView(R.layout.activity_main);
         navigationMenu=new _NavigationMenu(this);
         System.out.println("Hello MainActivity");
+    }
+    private void initDatabase() {
+        markedEventsDatabase = new LocalDatabase(this);
+        markedEventsDatabase.open();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -76,5 +85,8 @@ public class MainActivity extends Activity implements DownloadListener {
     @Override
     public void onDownloadFinished() {
 
+    }
+    public static LocalDatabase getMarkedEventsDatabase(){
+        return markedEventsDatabase;
     }
 }

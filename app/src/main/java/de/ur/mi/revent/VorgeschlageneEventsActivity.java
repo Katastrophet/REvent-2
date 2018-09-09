@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import de.ur.mi.revent.Download.DownloadListener;
@@ -39,6 +40,8 @@ public class VorgeschlageneEventsActivity extends Activity implements DownloadLi
         eventList_VorgeschlageneEvents.setAdapter(aa);
         //aa.notifyDataSetChanged();
 
+
+
         eventList_VorgeschlageneEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -47,6 +50,8 @@ public class VorgeschlageneEventsActivity extends Activity implements DownloadLi
             }
         });
         //
+
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

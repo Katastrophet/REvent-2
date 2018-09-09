@@ -49,5 +49,7 @@ public class EventItem {
         this.distance = distance;
         return 0;
     }
+
+
 }
 
