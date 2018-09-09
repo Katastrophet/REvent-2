@@ -45,7 +45,6 @@ public class MainActivity extends Activity implements DownloadListener {
             init();
         } else {
             init();
-            getLocationData();
         }
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
@@ -56,15 +55,7 @@ public class MainActivity extends Activity implements DownloadListener {
         DownloadManager.startDownload();
     }
 
-    public void getLocationData(){
-        //Erst hier ist bekannt ob Genehmigung erhalten.
-        //initUI und init dürfen noch nicht auf GPS-Daten wie den Abstand zugreifen.
-    }
-
-
-
     private void initUI(){
-
         setContentView(R.layout.activity_main);
         navigationMenu=new _NavigationMenu(this);
 
@@ -102,8 +93,8 @@ public class MainActivity extends Activity implements DownloadListener {
     private void initDatabase() {
         markedEventsDatabase = new LocalDatabase(this);
         markedEventsDatabase.open();
-
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         navigationMenu.onCreateOptionsMenu(menu);
@@ -122,12 +113,10 @@ public class MainActivity extends Activity implements DownloadListener {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, R.string.permission_granted, Toast.LENGTH_SHORT).show();
                     init();
-                    //
                 } else {
                     Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_LONG).show();
                 }
             }
-
         }
     }
 
@@ -138,7 +127,6 @@ public class MainActivity extends Activity implements DownloadListener {
     public static LocalDatabase getMarkedEventsDatabase(){
         return markedEventsDatabase;
     }
-
 
     @Override
     public void onBackPressed() {

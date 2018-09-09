@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import de.ur.mi.revent.Download.DownloadListener;
@@ -89,6 +88,4 @@ public class KommendeEvents extends Activity implements DownloadListener{
     private void printData(){
         System.out.println(table.get(2).getOrganizer());
     }
-
-
 }
